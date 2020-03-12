@@ -1,4 +1,4 @@
-## Build and Install Another Linux Kernel 
+## Build and Install Another Linux Kernel (Ubuntu 18.04-LTS)
 
 - Download Latest Stable Kernel from kernel.org
 - Assume the downloaded file is linux-5.5.9.tar.xz and is put in ~/
