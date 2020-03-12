@@ -49,3 +49,5 @@ exit
 or
 "MiniTool Partition Wizard Free Edition" from https://www.gigafree.net/system/drive/MiniToolPartitionWizardFree.html .
 - Delete the Ubuntu partition.
+
+Done.
