@@ -1,0 +1,70 @@
+{
+    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\wsl.exe",
+    "window.zoomLevel": 1.5,
+    "editor.fontSize": 12,
+    "editor.fontFamily": "'CamingoCode', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+    "workbench.startupEditor": "newUntitledFile",
+
+    "latex-workshop.latex.tools": [
+        {
+            "command": "ptex2pdf",
+            "args": [
+                "-interaction=nonstopmode",
+                "-l",
+                "-ot",
+                "-kanji=utf8 -synctex=1",
+                "%DOC%"
+            ],
+            "name": "ptex2pdf"
+        },
+        {
+            "command": "pbibtex",
+            "args": [
+                "%DOCFILE%",
+                "-kanji=utf8"
+            ],
+            "name": "pbibtex"
+        },
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+             "-synctex=1",
+             "-interaction=nonstopmode",
+             "-file-line-error",
+             "-pdf",
+             "%DOC%"
+            ]
+        },
+        {
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": [
+             "-synctex=1",
+             "-interaction=nonstopmode",
+             "-file-line-error",
+             "%DOC%"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "toolchain",
+            "tools": [
+                "pdflatex",
+                "pbibtex",
+                "pdflatex",
+                "pdflatex",
+                "ptex2pdf",
+                "pbibtex",
+                "ptex2pdf",
+                "ptex2pdf"
+            ]
+        }
+    ],
+    "latex-workshop.view.pdf.viewer": "tab",
+    "files.autoGuessEncoding": true,
+    "latex-workshop.latex.autoBuild.run": "onFileChange",
+    "latex-workshop.latex.autoClean.run": "onFailed",
+    "latex-workshop.latex.build.clearLog.everyRecipeStep.enabled": false
+}
