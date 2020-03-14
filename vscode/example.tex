@@ -1,0 +1,53 @@
+\documentclass[a4paper]{jarticle}
+\usepackage{moreverb}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{cases}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage[format=hang,font=scriptsize]{caption}
+ 
+% サブセクションの文字サイズ
+\usepackage{titlesec}
+% \titleformat*{\subsection}{\normalsize\bfseries}
+ 
+%余白、行間等 
+\topmargin = -20mm
+\oddsidemargin = 5mm
+\textwidth = 152mm 
+\textheight = 255mm 
+
+% サブセクションを 問1,問2 にする設定
+ \renewcommand{\thesubsection}{問\arabic{subsection}}
+
+% サブサブセクションを (1),(2)にする設定
+% (i),(ii)なら \arabic を \roman に変える。    (a),(b)なら \alph
+ \renewcommand{\thesubsubsection}{(\arabic{subsubsection})}
+ 
+% 図のキャプションを "figure"にする設定
+ \renewcommand{\figurename}{figure}
+
+% 計算式の参照には \eqref{eq:hoge} を使う
+\makeatletter
+  \renewcommand{\theequation}{\arabic{subsection}.\arabic{equation}}
+  \@addtoreset{equation}{subsection}
+\makeatother
+
+% --------------------------------------------------------------------
+\title{書式サンプル}
+\author{mdj982}
+
+
+\begin{document}
+\fontsize{8pt}{12pt}\selectfont
+
+\maketitle
+
+% --------------------------------------------------------------------
+% subsection 1
+\subsection{平文}
+
+$ \langle 1| \rangle $
+ok
+
+\end{document}
