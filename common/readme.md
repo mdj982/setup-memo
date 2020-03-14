@@ -10,6 +10,14 @@ sudo apt install -y devscripts autoconf automake autopoint autotools-dev build-e
 sudo ./build_mozc_plus_utdict
 sudo dpkg -i ./mozc-data_*.deb ./mozc-server_*.deb ./mozc-utils-gui_*.deb ./ibus-mozc_*.deb
 ```
+
 #### Trouble Shootings
 - Key assignments will be reset to US keys whenever rebooted. =>
   It Seems to be an internal bug. Adding the built-in Japanese (Roman only) at the top of the language list might work.
+
+### SSH keys
+Location:  
+~/.ssh/  
+
+Hint:  
+chmod 600 ~/.ssh/keys/*.pem
