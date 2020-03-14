@@ -1,11 +1,11 @@
 ## Completely Remove Ubuntu and Disable Dualboot (Windows 10)
 
-#### On BIOS
+### On BIOS
 - Give priority to Windows boot manager.
 
-#### On Windows
+### On Windows
 
-##### Edit EFI system partition (for UEFI boot mode)
+#### Edit EFI system partition (for UEFI boot mode)
 - Launch "cmd" in supervisor mode
 ```bat
 cd C:\
@@ -44,7 +44,7 @@ dir
 exit
 ```
 
-##### Partition settings
+#### Partition settings
 - Launch "Disk Management" (Built-in) 
 or
 "MiniTool Partition Wizard Free Edition" from https://www.gigafree.net/system/drive/MiniToolPartitionWizardFree.html .
