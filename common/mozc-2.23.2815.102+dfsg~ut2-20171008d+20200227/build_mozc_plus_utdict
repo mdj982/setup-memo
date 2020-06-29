@@ -1,0 +1,7 @@
+#!/bin/sh
+
+cd ./mut/
+debuild -b -uc -us -d
+cd -
+rm -rf ./mut/
+echo '終了\n'

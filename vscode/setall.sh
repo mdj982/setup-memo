@@ -6,3 +6,8 @@ code --install-extension james-yu.latex-workshop --force
 code --install-extension ms-dotnettools.csharp --force
 code --install-extension gimly81.matlab --force
 code --install-extension koehlma.markdown-math --force
+code --install-extension ms-python.python --force
+# code --install-extension  --force
+# code --install-extension  --force
+# code --install-extension  --force
+# code --install-extension  --force

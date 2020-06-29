@@ -14,7 +14,7 @@ cp /boot/config-5.3.0-40-generic ./.config # assume current kernel version is 5.
 make oldconfig
 sudo -s
 make-kpkg -j 8 --rootcmd fakeroot --initrd kernel_image kernel_headers
-ls ..
+cd ..
 dpkg -i linux-image-5.5.9_5.5.9-10.00.Custom_amd64.deb
 dpkg -i linux-headers-5.5.9_5.5.9-10.00.Custom_amd64.deb
 ls /lib/modules % confirm that the new module folder exists

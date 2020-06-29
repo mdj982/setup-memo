@@ -1,0 +1,155 @@
+ dpkg-buildpackage -rfakeroot -us -uc -ui -b -d
+dpkg-buildpackage: warning: using a gain-root-command while being root
+dpkg-buildpackage: info: source package mozc
+dpkg-buildpackage: info: source version 2.23.2815.102+dfsg-1~ubuntu1~bionic1.1~ut2.3
+dpkg-buildpackage: info: source distribution bionic
+dpkg-buildpackage: info: source changed by Sickly Life <sicklylife@yahoo.co.jp>
+ dpkg-source --before-build mut
+dpkg-buildpackage: info: host architecture amd64
+dpkg-source: info: applying uim-mozc.patch
+dpkg-source: info: applying fcitx-mozc.patch
+dpkg-source: info: applying fcitx-mozc-updates.patch
+dpkg-source: info: applying gcc.patch
+dpkg-source: info: applying usage_dict.txt.patch
+dpkg-source: info: applying add_support_new_japanese_era.patch
+ fakeroot debian/rules clean
+dh clean --parallel
+   debian/rules override_dh_auto_clean
+make[1]: Entering directory '/home/mdj982/Desktop/GitHub/setup-memo/common/mozc-2.23.2815.102+dfsg~ut2-20171008d+20200227/mut'
+cd src ; \
+python build_mozc.py clean
+INFO: Running: pkg-config --exists ibus-1.0 >= 1.4.1
+rm -rf src/build_tools/__init__.pyc
+rm -rf src/build_tools/mozc_version.pyc
+rm -rf src/build_tools/test_tools/__init__.pyc
+rm -rf src/build_tools/test_tools/task_scheduler.pyc
+rm -rf src/build_tools/util.pyc
+rm -rf src/build_tools/code_generator_util.pyc
+rm -rf src/build_tools/android_util.pyc
+rm -rf src/build_tools/serialized_string_array_builder.pyc
+rm -rf src/prediction/__init__.pyc
+rm -rf src/prediction/gen_zero_query_util.pyc
+rm -rf src/rewriter/embedded_dictionary_compiler.pyc
+rm -rf src/rewriter/__init__.pyc
+rm -rf src/dictionary/pos_util.pyc
+rm -rf src/dictionary/__init__.pyc
+rm -rf src/build_tools/test_tools/test_launcher.pyc
+rm -rf src/chrome/skk/skk_util_all_test.target.mk
+rm -rf src/chrome/skk/skk_util_test.target.mk
+dh_auto_clean
+make[1]: Leaving directory '/home/mdj982/Desktop/GitHub/setup-memo/common/mozc-2.23.2815.102+dfsg~ut2-20171008d+20200227/mut'
+   dh_clean -O--parallel
+ debian/rules build
+dh build --parallel
+   dh_update_autotools_config -O--parallel
+   debian/rules override_dh_auto_configure
+make[1]: Entering directory '/home/mdj982/Desktop/GitHub/setup-memo/common/mozc-2.23.2815.102+dfsg~ut2-20171008d+20200227/mut'
+cd src ; \
+GYP_DEFINES="use_libprotobuf=1 use_libzinnia=1" python build_mozc.py gyp \
+	--gypdir=/usr/bin --target_platform=Linux --verbose
+INFO: Generating version definition file...
+INFO: Version string is 2.23.2815.102
+INFO: Running: pkg-config --exists ibus-1.0 >= 1.4.1
+DEBUG: GYP files:
+DEBUG: - ./base/base.gyp
+DEBUG: - ./base/base_test.gyp
+DEBUG: - ./client/client.gyp
+DEBUG: - ./client/client_test.gyp
+DEBUG: - ./composer/composer.gyp
+DEBUG: - ./composer/composer_test.gyp
+DEBUG: - ./config/config.gyp
+DEBUG: - ./config/config_test.gyp
+DEBUG: - ./converter/converter.gyp
+DEBUG: - ./converter/converter_base.gyp
+DEBUG: - ./converter/converter_main.gyp
+DEBUG: - ./converter/converter_test.gyp
+DEBUG: - ./data/test/session/scenario/scenario.gyp
+DEBUG: - ./data/test/session/scenario/usage_stats/usage_stats.gyp
+DEBUG: - ./data_manager/chromeos/chromeos_data_manager.gyp
+DEBUG: - ./data_manager/chromeos/chromeos_data_manager_base.gyp
+DEBUG: - ./data_manager/chromeos/chromeos_data_manager_test.gyp
+DEBUG: - ./data_manager/data_manager.gyp
+DEBUG: - ./data_manager/data_manager_base.gyp
+DEBUG: - ./data_manager/data_manager_test.gyp
+DEBUG: - ./data_manager/oss/oss_data_manager.gyp
+DEBUG: - ./data_manager/oss/oss_data_manager_base.gyp
+DEBUG: - ./data_manager/oss/oss_data_manager_test.gyp
+DEBUG: - ./data_manager/testing/mock_data_manager.gyp
+DEBUG: - ./data_manager/testing/mock_data_manager_base.gyp
+DEBUG: - ./data_manager/testing/mock_data_manager_test.gyp
+DEBUG: - ./dictionary/dictionary.gyp
+DEBUG: - ./dictionary/dictionary_base.gyp
+DEBUG: - ./dictionary/dictionary_test.gyp
+DEBUG: - ./dictionary/file/dictionary_file.gyp
+DEBUG: - ./dictionary/file/dictionary_file_test.gyp
+DEBUG: - ./dictionary/system/system_dictionary.gyp
+DEBUG: - ./dictionary/system/system_dictionary_test.gyp
+DEBUG: - ./engine/engine.gyp
+DEBUG: - ./engine/engine_test.gyp
+DEBUG: - ./gui/gui.gyp
+DEBUG: - ./gyp/tests.gyp
+DEBUG: - ./handwriting/handwriting.gyp
+DEBUG: - ./handwriting/handwriting_test.gyp
+DEBUG: - ./handwriting/zinnia.gyp
+DEBUG: - ./ipc/ipc.gyp
+DEBUG: - ./mac/mac.gyp
+DEBUG: - ./net/jsoncpp.gyp
+DEBUG: - ./net/net.gyp
+DEBUG: - ./net/net_test.gyp
+DEBUG: - ./prediction/prediction.gyp
+DEBUG: - ./prediction/prediction_base.gyp
+DEBUG: - ./prediction/prediction_test.gyp
+DEBUG: - ./protobuf/protobuf.gyp
+DEBUG: - ./protocol/protocol.gyp
+DEBUG: - ./renderer/renderer.gyp
+DEBUG: - ./request/request.gyp
+DEBUG: - ./rewriter/calculator/calculator.gyp
+DEBUG: - ./rewriter/rewriter.gyp
+DEBUG: - ./rewriter/rewriter_base.gyp
+DEBUG: - ./rewriter/rewriter_test.gyp
+DEBUG: - ./server/server.gyp
+DEBUG: - ./session/session.gyp
+DEBUG: - ./session/session_base.gyp
+DEBUG: - ./session/session_test.gyp
+DEBUG: - ./storage/storage.gyp
+DEBUG: - ./storage/storage_test.gyp
+DEBUG: - ./testing/testing.gyp
+DEBUG: - ./transliteration/transliteration.gyp
+DEBUG: - ./transliteration/transliteration_test.gyp
+DEBUG: - ./unix/emacs/emacs.gyp
+DEBUG: - ./unix/fcitx/fcitx.gyp
+DEBUG: - ./unix/ibus/ibus.gyp
+DEBUG: - ./unix/uim/uim.gyp
+DEBUG: - ./usage_stats/usage_stats.gyp
+DEBUG: - ./usage_stats/usage_stats_base.gyp
+DEBUG: - ./usage_stats/usage_stats_test.gyp
+INFO: Building GYP command line...
+INFO: Running: pkg-config --exists Qt5Core Qt5Gui Qt5Widgets
+INFO: Running GYP...
+INFO: Running: /usr/bin/gyp --depth=. --include=./gyp/common.gypi -D abs_depth=/home/mdj982/Desktop/GitHub/setup-memo/common/mozc-2.23.2815.102+dfsg~ut2-20171008d+20200227/mut/src -D ext_third_party_dir=/home/mdj982/Desktop/GitHub/setup-memo/common/mozc-2.23.2815.102+dfsg~ut2-20171008d+20200227/mut/src/third_party -D python_executable=/usr/bin/python ./base/base.gyp ./base/base_test.gyp ./client/client.gyp ./client/client_test.gyp ./composer/composer.gyp ./composer/composer_test.gyp ./config/config.gyp ./config/config_test.gyp ./converter/converter.gyp ./converter/converter_base.gyp ./converter/converter_main.gyp ./converter/converter_test.gyp ./data/test/session/scenario/scenario.gyp ./data/test/session/scenario/usage_stats/usage_stats.gyp ./data_manager/chromeos/chromeos_data_manager.gyp ./data_manager/chromeos/chromeos_data_manager_base.gyp ./data_manager/chromeos/chromeos_data_manager_test.gyp ./data_manager/data_manager.gyp ./data_manager/data_manager_base.gyp ./data_manager/data_manager_test.gyp ./data_manager/oss/oss_data_manager.gyp ./data_manager/oss/oss_data_manager_base.gyp ./data_manager/oss/oss_data_manager_test.gyp ./data_manager/testing/mock_data_manager.gyp ./data_manager/testing/mock_data_manager_base.gyp ./data_manager/testing/mock_data_manager_test.gyp ./dictionary/dictionary.gyp ./dictionary/dictionary_base.gyp ./dictionary/dictionary_test.gyp ./dictionary/file/dictionary_file.gyp ./dictionary/file/dictionary_file_test.gyp ./dictionary/system/system_dictionary.gyp ./dictionary/system/system_dictionary_test.gyp ./engine/engine.gyp ./engine/engine_test.gyp ./gui/gui.gyp ./gyp/tests.gyp ./handwriting/handwriting.gyp ./handwriting/handwriting_test.gyp ./handwriting/zinnia.gyp ./ipc/ipc.gyp ./mac/mac.gyp ./net/jsoncpp.gyp ./net/net.gyp ./net/net_test.gyp ./prediction/prediction.gyp ./prediction/prediction_base.gyp ./prediction/prediction_test.gyp ./protobuf/protobuf.gyp ./protocol/protocol.gyp ./renderer/renderer.gyp ./request/request.gyp ./rewriter/calculator/calculator.gyp ./rewriter/rewriter.gyp ./rewriter/rewriter_base.gyp ./rewriter/rewriter_test.gyp ./server/server.gyp ./session/session.gyp ./session/session_base.gyp ./session/session_test.gyp ./storage/storage.gyp ./storage/storage_test.gyp ./testing/testing.gyp ./transliteration/transliteration.gyp ./transliteration/transliteration_test.gyp ./unix/emacs/emacs.gyp ./unix/fcitx/fcitx.gyp ./unix/ibus/ibus.gyp ./unix/uim/uim.gyp ./usage_stats/usage_stats.gyp ./usage_stats/usage_stats_base.gyp ./usage_stats/usage_stats_test.gyp -D branding=Mozc -D use_qt=YES -D qt_dir= -D use_wix=NO -D build_base=/home/mdj982/Desktop/GitHub/setup-memo/common/mozc-2.23.2815.102+dfsg~ut2-20171008d+20200227/mut/src/out_linux -D build_short_base=out_linux -D warn_as_error=0 -D channel_dev=1 -D enable_cloud_handwriting=0 -D target_platform=Linux -D use_libibus=1 --generator-output=. -G output_dir=out_linux
+Traceback (most recent call last):
+  File "/usr/bin/gyp", line 5, in <module>
+    from pkg_resources import load_entry_point
+  File "build/bdist.linux-x86_64/egg/pkg_resources.py", line 2603, in <module>
+  File "build/bdist.linux-x86_64/egg/pkg_resources.py", line 666, in require
+  File "build/bdist.linux-x86_64/egg/pkg_resources.py", line 565, in resolve
+pkg_resources.DistributionNotFound: gyp==0.1
+Traceback (most recent call last):
+  File "build_mozc.py", line 1236, in <module>
+    main()
+  File "build_mozc.py", line 1220, in main
+    GypMain(cmd_opts, cmd_args)
+  File "build_mozc.py", line 736, in GypMain
+    RunOrDie(gyp_command + gyp_options)
+  File "/home/mdj982/Desktop/GitHub/setup-memo/common/mozc-2.23.2815.102+dfsg~ut2-20171008d+20200227/mut/src/build_tools/util.py", line 99, in RunOrDie
+    '==========']))
+build_tools.util.RunOrDieError: 
+==========
+ ERROR: /usr/bin/gyp --depth=. --include=./gyp/common.gypi -D abs_depth=/home/mdj982/Desktop/GitHub/setup-memo/common/mozc-2.23.2815.102+dfsg~ut2-20171008d+20200227/mut/src -D ext_third_party_dir=/home/mdj982/Desktop/GitHub/setup-memo/common/mozc-2.23.2815.102+dfsg~ut2-20171008d+20200227/mut/src/third_party -D python_executable=/usr/bin/python ./base/base.gyp ./base/base_test.gyp ./client/client.gyp ./client/client_test.gyp ./composer/composer.gyp ./composer/composer_test.gyp ./config/config.gyp ./config/config_test.gyp ./converter/converter.gyp ./converter/converter_base.gyp ./converter/converter_main.gyp ./converter/converter_test.gyp ./data/test/session/scenario/scenario.gyp ./data/test/session/scenario/usage_stats/usage_stats.gyp ./data_manager/chromeos/chromeos_data_manager.gyp ./data_manager/chromeos/chromeos_data_manager_base.gyp ./data_manager/chromeos/chromeos_data_manager_test.gyp ./data_manager/data_manager.gyp ./data_manager/data_manager_base.gyp ./data_manager/data_manager_test.gyp ./data_manager/oss/oss_data_manager.gyp ./data_manager/oss/oss_data_manager_base.gyp ./data_manager/oss/oss_data_manager_test.gyp ./data_manager/testing/mock_data_manager.gyp ./data_manager/testing/mock_data_manager_base.gyp ./data_manager/testing/mock_data_manager_test.gyp ./dictionary/dictionary.gyp ./dictionary/dictionary_base.gyp ./dictionary/dictionary_test.gyp ./dictionary/file/dictionary_file.gyp ./dictionary/file/dictionary_file_test.gyp ./dictionary/system/system_dictionary.gyp ./dictionary/system/system_dictionary_test.gyp ./engine/engine.gyp ./engine/engine_test.gyp ./gui/gui.gyp ./gyp/tests.gyp ./handwriting/handwriting.gyp ./handwriting/handwriting_test.gyp ./handwriting/zinnia.gyp ./ipc/ipc.gyp ./mac/mac.gyp ./net/jsoncpp.gyp ./net/net.gyp ./net/net_test.gyp ./prediction/prediction.gyp ./prediction/prediction_base.gyp ./prediction/prediction_test.gyp ./protobuf/protobuf.gyp ./protocol/protocol.gyp ./renderer/renderer.gyp ./request/request.gyp ./rewriter/calculator/calculator.gyp ./rewriter/rewriter.gyp ./rewriter/rewriter_base.gyp ./rewriter/rewriter_test.gyp ./server/server.gyp ./session/session.gyp ./session/session_base.gyp ./session/session_test.gyp ./storage/storage.gyp ./storage/storage_test.gyp ./testing/testing.gyp ./transliteration/transliteration.gyp ./transliteration/transliteration_test.gyp ./unix/emacs/emacs.gyp ./unix/fcitx/fcitx.gyp ./unix/ibus/ibus.gyp ./unix/uim/uim.gyp ./usage_stats/usage_stats.gyp ./usage_stats/usage_stats_base.gyp ./usage_stats/usage_stats_test.gyp -D branding=Mozc -D use_qt=YES -D qt_dir= -D use_wix=NO -D build_base=/home/mdj982/Desktop/GitHub/setup-memo/common/mozc-2.23.2815.102+dfsg~ut2-20171008d+20200227/mut/src/out_linux -D build_short_base=out_linux -D warn_as_error=0 -D channel_dev=1 -D enable_cloud_handwriting=0 -D target_platform=Linux -D use_libibus=1 --generator-output=. -G output_dir=out_linux
+==========
+debian/rules:31: recipe for target 'override_dh_auto_configure' failed
+make[1]: *** [override_dh_auto_configure] Error 1
+make[1]: Leaving directory '/home/mdj982/Desktop/GitHub/setup-memo/common/mozc-2.23.2815.102+dfsg~ut2-20171008d+20200227/mut'
+debian/rules:28: recipe for target 'build' failed
+make: *** [build] Error 2
+dpkg-buildpackage: error: debian/rules build subprocess returned exit status 2
