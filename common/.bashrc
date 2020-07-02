@@ -122,9 +122,13 @@ fi
 ## - content
 ## - filename
 ## - makecpp
-## - 
+## - touchcpp
+## - sshgen
+## - nautback
+## - topps
+
 function myshell() {
-    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback"
+    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n"
 }
 
 ##
@@ -171,7 +175,13 @@ elif [ -e $1.cpp ]; then
     echo "Error: "$1".cpp exists."
 else
   touch $1".hpp"
+  if [ $? -eq 1 ]; then
+    return 1
+  fi
   touch $1".cpp"
+  if [ $? -eq 1 ]; then
+    return 1
+  fi
   local basename=${1##*/}
   local UPPERNAME=${basename^^}
   echo -e "#ifndef "${UPPERNAME//-/_}_HPP"\n""#define "${UPPERNAME//-/_}_HPP"\n\n""#endif // "${UPPERNAME//-/_}_HPP >> $1".hpp"
@@ -197,5 +207,16 @@ if [ $# -ne 1 ]; then
     echo "cf.    nautilus [directory_name] & > /dev/null "
 else
     nautilus $1 & > /dev/null
+fi
+}
+
+##
+function topps() {
+if [ $# -ne 1 ]; then
+  echo "Usage: topps [process_name]"
+else
+  local pids=`pgrep $1`
+  pids=`echo ${pids} | awk '{ gsub(" ", ","); print }'`
+  top -p ${pids}
 fi
 }
