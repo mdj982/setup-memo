@@ -128,12 +128,13 @@ fi
 ## - topps
 
 function myshell() {
-    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n"
+    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps "
 }
 
 ##
 alias open=xdg-open
-alias mnt="sudo bash ~/mnt.sh"
+alias mnt="sudo bash ~/myshell/mnt.sh"
+alias zref="~/myshell/zref"
 
 ##
 function content() {
