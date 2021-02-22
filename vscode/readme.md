@@ -16,7 +16,7 @@ Windows:
 WSL:  
 ${PWD}/Code/User/settings.json  
 
-### location: keybindings.json
+### Location: keybindings.json
 Linux:  
 ~/.config/Code/User/keybindings.json  
 Windows:  
