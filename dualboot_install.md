@@ -5,7 +5,7 @@
 #### Preparation of a bootable USB device
 - Download "ubuntu-18.04.4-desktop-amd64.iso" from official site.
 - Download "Universal USB Installer 1.9.8.2" from https://universal-usb-installer.jp.uptodown.com/windows
-- Insert an USB device and make it to be a bootable device following the instructions.
+- Insert an USB device and make it to be a bootable device by following the instructions.
 
 #### Partition settings
 - Launch "Disk Management" (Built-in) 
