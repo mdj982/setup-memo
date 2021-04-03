@@ -1,7 +1,9 @@
 ## Utility Settings
 
 ### Mozc
-#### Install Mozc
+- Mozc currently works well in default Ubuntu 20.04 LTS.
+
+#### Install Mozc (Ubuntu 18.04 LTS)
 ```bash
 tar -xf mozc-2.23.2815.102+dfsg~ut2-20171008d+20200227.tar.xz 
 cd mozc-2.23.2815.102+dfsg~ut2-20171008d+20200227/
