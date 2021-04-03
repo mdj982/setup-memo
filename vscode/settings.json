@@ -1,6 +1,5 @@
 {
     "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\wsl.exe",
-    "window.zoomLevel": 1.5,
     "editor.fontSize": 12,
     "editor.fontFamily": "'CamingoCode', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
     "workbench.startupEditor": "newUntitledFile",
@@ -51,11 +50,14 @@
         {
             "name": "toolchain",
             "tools": [
-                /* // CS thesis
+                /*
                 "pdflatex",
                 "pbibtex",
                 "pdflatex",
-                "pdflatex",
+                "pdflatex"
+                */
+                // iscsthesis
+                /*
                 "ptex2pdf",
                 "pbibtex",
                 "ptex2pdf",
@@ -70,5 +72,8 @@
     "files.autoGuessEncoding": true,
     "latex-workshop.latex.autoBuild.run": "onFileChange",
     "latex-workshop.latex.autoClean.run": "onFailed",
-    "latex-workshop.latex.build.clearLog.everyRecipeStep.enabled": false
+    "latex-workshop.latex.build.clearLog.everyRecipeStep.enabled": false,
+    "liveServer.settings.donotShowInfoMsg": true,
+    "extensions.autoUpdate": false,
+    "window.zoomLevel": 2
 }
