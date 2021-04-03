@@ -39,5 +39,4 @@ gcc-10 --version
 g++-10 --version
 sudo update-alternatives --install /usr/bin/gcc gcc `which gcc-10` 1020 # version to int
 sudo update-alternatives --install /usr/bin/g++ g++ `which g++-10` 1020 # version to int
-
 ````
