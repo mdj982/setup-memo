@@ -59,13 +59,14 @@
             "name": "toolchain",
             "tools": [
                 /*
+                // article
                 "pdflatex",
                 "pbibtex",
                 "pdflatex",
                 "pdflatex"
                 */
-                // iscsthesis
                 /*
+                // jarticle
                 "ptex2pdf",
                 "pbibtex",
                 "ptex2pdf",
