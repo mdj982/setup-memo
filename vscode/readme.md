@@ -27,7 +27,7 @@ Windows:
 WSL:  
 ${PWD}/Code/User/keybindings.json
 
-### Enable "Open with Code" in Nautilus
+### Enable "Open with Code" in Nautilus (bionic)
 #### Install Filemanager-Actions
 ```bash
 sudo add-apt-repository ppa:daniel-marynicz/filemanager-actions
