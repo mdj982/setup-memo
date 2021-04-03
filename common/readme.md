@@ -23,3 +23,11 @@ Location:
 
 Hint:  
 chmod 600 ~/.ssh/keys/*.pem
+
+### Device blacklist
+Location:
+/etc/modproble.d/blacklist.conf
+
+Hint:
+blacklist uas
+blacklist usb_storage
