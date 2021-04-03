@@ -126,9 +126,10 @@ fi
 ## - sshgen
 ## - nautback
 ## - topps
+## - substall
 
 function myshell() {
-    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps "
+    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall"
 }
 
 ##
@@ -219,5 +220,14 @@ else
   local pids=`pgrep $1`
   pids=`echo ${pids} | awk '{ gsub(" ", ","); print }'`
   top -p ${pids}
+fi
+}
+
+##
+function substall() {
+if [ $# -ne 2 ]; then
+  echo "Usage: substall \"[string_before]\" \"[string_after]\""
+else
+  find . -type f | xargs sed -i "s/$1/$2/g"
 fi
 }
