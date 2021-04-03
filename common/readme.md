@@ -31,3 +31,13 @@ Location:
 Hint:
 blacklist uas
 blacklist usb_storage
+
+### C++, update-alternative
+````bash
+sudo apt install -y gcc-10 g++-10
+gcc-10 --version
+g++-10 --version
+sudo update-alternatives --install /usr/bin/gcc gcc `which gcc-10` 1020 # version to int
+sudo update-alternatives --install /usr/bin/g++ g++ `which g++-10` 1020 # version to int
+
+````
