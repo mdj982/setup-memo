@@ -30,7 +30,7 @@ fi
 export MANPATH=${MANPATH}:/usr/local/texlive/2019/texmf-dist/doc/man
 export INFOPATH=${INFOPATH}:/usr/local/texlive/2019/texmf-dist/doc/info
 export PATH=${PATH}:/usr/local/texlive/2019/bin/x86_64-linux
-export BSTINPUTS=$BSTINPUTS:/usr/share/texlive/texmf-dist/pbibtex/bst/
+# export BSTINPUTS=$BSTINPUTS:/usr/share/texlive/texmf-dist/pbibtex/bst/
 
 # emsdk
-source ~/Desktop/GitHub/emsdk/emsdk_env.sh
+# source ~/Desktop/GitHub/emsdk/emsdk_env.sh
