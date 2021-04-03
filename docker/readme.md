@@ -43,7 +43,7 @@ exit
 
 # relaunch terminal
 docker info
-docker hello-world
+docker run hello-world
 # if still get permission denied, reboot and try again
 
 ````
