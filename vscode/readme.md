@@ -3,11 +3,15 @@
 ### Supported version
 1.43.0
 
-### Quick setting
+### Install
 ```bash
 # download .deb package from official site
 # https://code.visualstudio.com/download
 sudo dpkg code_*.deb
+```
+
+### Quick custom settings
+```bash
 bash setall.sh
 ```
 
