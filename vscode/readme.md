@@ -5,6 +5,9 @@
 
 ### Quick setting
 ```bash
+# download .deb package from official site
+# https://code.visualstudio.com/download
+sudo dpkg code_*.deb
 bash setall.sh
 ```
 
