@@ -130,7 +130,7 @@ fi
 ## - fmtwhite
 
 function myshell() {
-    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n fmtwhite \n"
+    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n fmtwhite"
 }
 
 ##
