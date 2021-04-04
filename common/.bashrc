@@ -127,10 +127,10 @@ fi
 ## - nautback
 ## - topps
 ## - substall
-## - delwhite
+## - fmtwhite
 
 function myshell() {
-    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n delwhite \n"
+    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n fmtwhite \n"
 }
 
 ##
@@ -249,11 +249,12 @@ fi
 }
 
 ##
-function delwhite() {
+function fmtwhite() {
 if [ $# -eq 0 ]; then
-    echo "Usage: delwhite [filename]"
-    echo "cf.    sed -i -e \"s/[ \\t]*\$//\" [filename]"
+    echo "Usage: fmtwhite [filename]"
+    echo "cf.    sed -i -e \"s/[ \\t]*\$//\" [filenames]; sed -i \"\$a\\\" [filenames]"
 else
     sed -i -e "s/[ \t]*$//" $*
+    sed -i '$a\' $*
 fi
 }
