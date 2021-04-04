@@ -31,6 +31,9 @@ Host [short name]
     ServerAliveInterval 60
 ````
 
+Note:
+In GitHub/GitLab settings, [short name] is basically corresponded to [domain name]
+
 Hint:  
 chmod 600 ~/.ssh/keys/*.pem
 
