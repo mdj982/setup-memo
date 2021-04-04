@@ -19,7 +19,17 @@ sudo dpkg -i ./mozc-data_*.deb ./mozc-server_*.deb ./mozc-utils-gui_*.deb ./ibus
 
 ### SSH keys
 Location:  
-~/.ssh/  
+~/.ssh/
+
+Format in ~/.ssh/config:
+````
+Host [short name]
+    HostName [domain name]
+    User [user name]
+    # Port 22
+    IdentityFile ~/.ssh/keys/[pem file]
+    ServerAliveInterval 60
+````
 
 Hint:  
 chmod 600 ~/.ssh/keys/*.pem
