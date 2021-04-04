@@ -45,5 +45,22 @@ exit
 docker info
 docker run hello-world
 # if still get error, reboot and try again
-
 ````
+
+### Usage
+
+#### About Images
+````bash
+docker images # confirm
+docker pull # pull image
+docker rmi [image] # delete
+````
+
+#### About Container
+````bash
+docker ps -a # show all containers
+docker ps # show running container
+docker build ... # build container
+codker start # start running container
+docker stop [container] # stop running container
+docker rm [container] # remove container
