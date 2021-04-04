@@ -16,19 +16,19 @@ bash setall.sh
 ```
 
 ### Location: settings.json
-Linux:  
-~/.config/Code/User/settings.json  
-Windows:  
-%APPDATA%\Code\User\settings.json  
-WSL:  
-${PWD}/Code/User/settings.json  
+Linux:
+~/.config/Code/User/settings.json
+Windows:
+%APPDATA%\Code\User\settings.json
+WSL:
+${PWD}/Code/User/settings.json
 
 ### Location: keybindings.json
-Linux:  
-~/.config/Code/User/keybindings.json  
-Windows:  
-%APPDATA%\Code\User\keybindings.json  
-WSL:  
+Linux:
+~/.config/Code/User/keybindings.json
+Windows:
+%APPDATA%\Code\User\keybindings.json
+WSL:
 ${PWD}/Code/User/keybindings.json
 
 ### Enable "Open with Code" in Nautilus (bionic)
@@ -40,15 +40,15 @@ sudo apt install filemanager-actions-nautilus-extension
 fma-config-tool
 ```
 #### Add the action
-File > New action  
-Command >  
-Path: /usr/bin/code  
-Parameters: . --working-directory=%d/%b  
+File > New action
+Command >
+Path: /usr/bin/code
+Parameters: . --working-directory=%d/%b
 Working Directory: %d/%b
 
 ### LaTeX environment
 #### TeXLive
-Download link: http://ftp.jaist.ac.jp/pub/CTAN/systems/texlive/tlnet/install-tl-unx.tar.gz 
+Download link: http://ftp.jaist.ac.jp/pub/CTAN/systems/texlive/tlnet/install-tl-unx.tar.gz
 ```bash
 tar -xf install-tl-unx.tar.gz
 cd install-tl-*
@@ -60,7 +60,7 @@ export MANPATH=${MANPATH}:/usr/local/texlive/2019/texmf-dist/doc/man
 export INFOPATH=${INFOPATH}:/usr/local/texlive/2019/texmf-dist/doc/info
 export PATH=${PATH}:/usr/local/texlive/2019/bin/x86_64-linux
 ```
-Logfile:  
+Logfile:
 /usr/local/texlive/2019/install-tl.log
 
 #### Trouble Shootings

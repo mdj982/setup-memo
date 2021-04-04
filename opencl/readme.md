@@ -1,7 +1,7 @@
 ## OpenCL Settings (Intel, Linux-64bit)
 
 ### Preparation
-- Access Intel website to download "Intel CPU Runtimes for OpenCL Applications" 
+- Access Intel website to download "Intel CPU Runtimes for OpenCL Applications"
 https://software.intel.com/content/www/us/en/develop/tools/opencl-cpu-runtime.html
 - Confirm the package is put in the current directory. e.g.
     ```bash
