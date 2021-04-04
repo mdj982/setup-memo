@@ -127,9 +127,10 @@ fi
 ## - nautback
 ## - topps
 ## - substall
+## - delwhite
 
 function myshell() {
-    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall"
+    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n delwhite \n"
 }
 
 ##
@@ -140,54 +141,54 @@ alias zref="~/myshell/zref"
 ##
 function content() {
 if [ $# -ne 1 ]; then
-  echo "Usage: content [content]"
-  echo "cf.    grep \"[content]\" -rl ./"
+	echo "Usage: content [content]"
+	echo "cf.    grep \"[content]\" -rl ./"
 else
-  grep "$1" -rl ./
+	grep "$1" -rl ./
 fi
 }
 
 ##
 function filename() {
 if [ $# -ne 1 ]; then
-  echo "Usage: filename [partial_filename]"
-  echo "cf.    find ./ -maxdepth [depth] -type f -name \"*[partial_filename]*\""
+	echo "Usage: filename [partial_filename]"
+	echo "cf.    find ./ -maxdepth [depth] -type f -name \"*[partial_filename]*\""
 else
-  find ./ -type f -name "*$1*"
+	find ./ -type f -name "*$1*"
 fi
 }
 
 ##
 function makecpp() {
 if [ $# -ne 1 ]; then
-  echo "Usage: makecpp [filename_without_extension]"
-  echo "cf.    g++ -std=c++1z -O3 -Wall -fopenmp -o test test.cpp"
+	echo "Usage: makecpp [filename_without_extension]"
+	echo "cf.    g++ -std=c++1z -O3 -Wall -fopenmp -o test test.cpp"
 else
-  g++ -std=c++1z -O3 -Wall -fopenmp -o $1 $1.cpp 
+	g++ -std=c++1z -O3 -Wall -fopenmp -o $1 $1.cpp 
 fi
 }
 
 ##
 function touchcpp() {
 if [ $# -ne 1 ]; then
-  echo "Usage: touchcpp [filename_without_extension]"
+	echo "Usage: touchcpp [filename_without_extension]"
 elif [ -e $1.hpp ]; then
     echo "Error: "$1".hpp exists."
 elif [ -e $1.cpp ]; then
     echo "Error: "$1".cpp exists."
 else
-  touch $1".hpp"
-  if [ $? -eq 1 ]; then
-    return 1
-  fi
-  touch $1".cpp"
-  if [ $? -eq 1 ]; then
-    return 1
-  fi
-  local basename=${1##*/}
-  local UPPERNAME=${basename^^}
-  echo -e "#ifndef "${UPPERNAME//-/_}_HPP"\n""#define "${UPPERNAME//-/_}_HPP"\n\n""#endif // "${UPPERNAME//-/_}_HPP >> $1".hpp"
-  echo -e "#include \""${basename}".hpp\"" >> $1".cpp"
+	touch $1".hpp"
+	if [ $? -eq 1 ]; then
+		return 1
+	fi
+	touch $1".cpp"
+	if [ $? -eq 1 ]; then
+    	return 1
+	fi
+	local basename=${1##*/}
+	local UPPERNAME=${basename^^}
+	echo -e "#ifndef "${UPPERNAME//-/_}_HPP"\n""#define "${UPPERNAME//-/_}_HPP"\n\n""#endif // "${UPPERNAME//-/_}_HPP >> $1".hpp"
+	echo -e "#include \""${basename}".hpp\"" >> $1".cpp"
 fi
 }
 
@@ -215,19 +216,44 @@ fi
 ##
 function topps() {
 if [ $# -ne 1 ]; then
-  echo "Usage: topps [process_name]"
+	echo "Usage: topps [process_name]"
 else
-  local pids=`pgrep $1`
-  pids=`echo ${pids} | awk '{ gsub(" ", ","); print }'`
-  top -p ${pids}
+	local pids=`pgrep $1`
+	pids=`echo ${pids} | awk '{ gsub(" ", ","); print }'`
+	top -p ${pids}
 fi
 }
 
 ##
 function substall() {
 if [ $# -ne 2 ]; then
-  echo "Usage: substall \"[string_before]\" \"[string_after]\""
+    echo "Usage: substall \"[before]\" \"[after]\""
+    echo "cf.    grep [before] \rl ./ | xargs sed -i \"s/[before]/[after]/g\""
 else
-  find . -type f | xargs sed -i "s/$1/$2/g"
+    local targetfiles=`grep "$1" -rl ./`
+    if [ -z $targetfiles ]
+    then
+        echo "No file has string \"$1\""
+    else
+        echo "Confirmation: substitution occurs in the following files"
+        echo $targetfiles
+        read -p "Continue? (y/n): " res
+        case "$res" in
+        [yY]*)
+            echo $targetfiles | xargs sed -i "s/$1/$2/g"; echo "Done.";;
+        *)
+            echo "Abort.";;
+        esac
+    fi
+fi
+}
+
+##
+function delwhite() {
+if [ $# -eq 0 ]; then
+    echo "Usage: delwhite [filename]"
+    echo "cf.    sed -i -e \"s/[ \\t]*\$//\" [filename]"
+else
+    sed -i -e "s/[ \t]*$//" $*
 fi
 }
