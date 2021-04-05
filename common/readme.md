@@ -35,7 +35,12 @@ Note:
 In GitHub/GitLab settings, [short name] is basically corresponded to [domain name]
 
 Hint:
+````bash
 chmod 600 ~/.ssh/keys/*.pem
+# authorized_keys should be placed in server
+chmod 600 ~/.ssh/authorized_keys
+cat test.pub >> ~/.ssh/authorized_keys
+````
 
 ### Device blacklist
 Location:
@@ -52,6 +57,16 @@ gcc-10 --version
 g++-10 --version
 sudo update-alternatives --install /usr/bin/gcc gcc `which gcc-10` 1020 # version to int
 sudo update-alternatives --install /usr/bin/g++ g++ `which g++-10` 1020 # version to int
+````
+
+### About shell
+````bash
+echo $SHELL
+# /bin/sh
+chsh -s /bin/bash
+exit
+echo $SHELL
+# /bin/bash
 ````
 
 ### About time (hardware clock vs system clock)
