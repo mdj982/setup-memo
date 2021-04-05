@@ -19,7 +19,9 @@ or
 - Disable safe mode.
 
 ### On USB device
-- On GRUB menu, "Try Ubuntu without installing".
+- On GRUB menu,
+    - "Try Ubuntu without installing" (18.04 LTS)
+    - "Ubuntu" -> "Install" (20.04 LTS)
 - Launch the installer on desktop and follow the instruction.
 
 Done.

@@ -53,3 +53,11 @@ g++-10 --version
 sudo update-alternatives --install /usr/bin/gcc gcc `which gcc-10` 1020 # version to int
 sudo update-alternatives --install /usr/bin/g++ g++ `which g++-10` 1020 # version to int
 ````
+
+### About time (hardware clock vs system clock)
+````bash
+sudo hwclock -D --systohc --localtime
+````
+
+### About network card
+- Disable: Windows -> "Device Manager" -> "Network Adapter" -> "Power Management" -> "Wake on Magic Packet from power off state"
