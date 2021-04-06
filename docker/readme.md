@@ -61,6 +61,8 @@ docker rmi [image] # delete
 docker ps -a # show all containers
 docker ps # show running container
 docker build ... # build container
-codker start # start running container
+docker start # start running container
+docker exec -it [container] [command] # exec on container
 docker stop [container] # stop running container
 docker rm [container] # remove container
+````
