@@ -85,5 +85,7 @@
     "latex-workshop.latex.build.clearLog.everyRecipeStep.enabled": false,
     "liveServer.settings.donotShowInfoMsg": true,
     "extensions.autoUpdate": false,
-    "window.zoomLevel": 2
+    "window.zoomLevel": 2,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true
 }
