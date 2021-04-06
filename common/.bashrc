@@ -127,10 +127,10 @@ fi
 ## - nautback
 ## - topps
 ## - substall
-## - fmtwhite
+## - whitefmt
 
 function myshell() {
-    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n fmtwhite"
+    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n whitefmt"
 }
 
 ##
@@ -249,9 +249,9 @@ fi
 }
 
 ##
-function fmtwhite() {
+function whitefmt() {
 if [ $# -eq 0 ]; then
-    echo "Usage: fmtwhite [filename]"
+    echo "Usage: whitefmt [filename]"
     echo "cf.    sed -i -e \"s/[ \\t]*\$//\" [filenames]; sed -i \"\$a\\\" [filenames]"
 else
     sed -i -e "s/[ \t]*$//" $*
