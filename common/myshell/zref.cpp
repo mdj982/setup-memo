@@ -111,7 +111,7 @@ std::string insert_underscore(const std::string &str) {
         if (c == ' ' || c == '\t') {
             ret += '_';
         }
-        else if (c != '$' && c != '\\' && c != '`' && c != '\"' && c != '\'' && c != '^' && c != ':') {
+        else if (c != '$' && c != '\\' && c != '`' && c != '\"' && c != '\'' && c != '^' && c != ':' && c != '?') {
             ret += c;
         }
     }
