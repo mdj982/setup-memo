@@ -46,22 +46,28 @@ $ sudo dpkg -i ./mozc-data_*.deb ./mozc-server_*.deb ./mozc-utils-gui_*.deb ./ib
   ````
 
 - Create a user
-  ```bash
+  ````bash
   $ sudo useradd -m [username]
   $ sudo passwd [username]
   # enter new password
-  ```
+  ````
+
+- Delete a user
+  ````bash
+  $ sudo userdel -r [username]
+  # be careful !!! (Do not remove root user)
+  ````
 
 - Set a sudo password
-  ```bash
+  ````bash
   $ sudo -i
   # passwd
-  ```
+  ````
 
 - Make home folder invisible from other users
-  ```bash
+  ````bash
   $ chmod 700 /home/[my_username]
-  ```
+  ````
 
 ### SSH keys
 Location:
