@@ -111,7 +111,7 @@ std::string insert_underscore(const std::string &str) {
         if (c == ' ' || c == '\t') {
             ret += '_';
         }
-        else if (c != '$' && c != '\\' && c != '`' && c != '\"' && c != '\'' && c != '^') {
+        else if (c != '$' && c != '\\' && c != '`' && c != '\"' && c != '\'' && c != '^' && c != ':' && c != '?') {
             ret += c;
         }
     }
@@ -134,11 +134,11 @@ int main(int argc, char *argv[]) {
         exit(0);
     }
     ifs.close();
-    
+
     bibinfo_t bibinfo = get_bibinfo();
     std::string next_fname = bibinfo.year + "_" + insert_underscore(bibinfo.title) + ".pdf";
     std::string mvcmd = "mv '" + prev_fname + "' " + next_fname;
-    
+
     std::ofstream ofs; ofs.open("zref.bib", std::ios_base::app);
     if (!ofs.is_open()) {
         std::cerr << "Error: " << strerror(errno) << " \"zref.bib\"" << std::endl;

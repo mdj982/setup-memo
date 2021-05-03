@@ -1,0 +1,59 @@
+\documentclass[a4paper]{article}
+\usepackage{moreverb}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{colortbl}
+\usepackage{bm}
+\usepackage{cases}
+\usepackage{url}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage[format=hang,font=scriptsize]{caption}
+
+% サブセクションの文字サイズ
+\usepackage{titlesec}
+% \titleformat*{\subsection}{\normalsize\bfseries}
+
+%余白、行間等
+\topmargin = -20mm
+\oddsidemargin = 0mm
+\textwidth = 162mm
+\textheight = 265mm
+
+% サブセクションを 問1,問2 にする設定
+ \renewcommand{\thesubsection}{\arabic{subsection}.}
+
+% サブサブセクションを (1),(2)にする設定
+% (i),(ii)なら \arabic を \roman に変える。    (a),(b)なら \alph
+ \renewcommand{\thesubsubsection}{(\arabic{subsubsection})}
+
+% 図のキャプションを "figure"にする設定
+ \renewcommand{\figurename}{Fig.}
+ \renewcommand{\tablename}{Table}
+
+% ユーザー定義
+\newcommand{\Gray}{\cellcolor[gray]{0.7}}
+\newcommand{\Blur}{\cellcolor[gray]{0.85}}
+
+% 計算式の参照には \eqref{eq:hoge} を使う
+\makeatletter
+  \renewcommand{\theequation}{\arabic{subsection}.\arabic{equation}}
+  \@addtoreset{equation}{subsection}
+\makeatother
+
+% --------------------------------------------------------------------
+\title{Zref View}
+\author{mdj982}
+
+\begin{document}
+\fontsize{9pt}{12pt}\selectfont
+
+\maketitle
+
+% --------------------------------------------------------------------
+
+\nocite{*}
+
+\bibliographystyle{plain}
+\bibliography{zref}
+
+\end{document}
