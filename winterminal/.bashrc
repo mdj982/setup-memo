@@ -134,8 +134,6 @@ function myshell() {
 }
 
 ##
-# alias open=xdg-open
-# alias mnt="sudo bash ~/myshell/mnt.sh"
 alias zref="~/myshell/zref"
 
 ##
@@ -164,7 +162,7 @@ if [ $# -ne 1 ]; then
 	echo "Usage: makecpp [filename_without_extension]"
 	echo "cf.    g++ -std=c++1z -O3 -Wall -fopenmp -o test test.cpp"
 else
-	g++ -std=c++1z -O3 -Wall -fopenmp -o $1 $1.cpp 
+	g++ -std=c++1z -O3 -Wall -fopenmp -o $1 $1.cpp
 fi
 }
 
@@ -230,6 +228,15 @@ elif [ $# -eq 1 ]; then
     esac
 else
     explorer.exe `wslpath -w "$PWD"` & > /dev/null
+fi
+}
+
+##
+function open() {
+if [ $# -ne 1 ]; then
+	echo "Usage: open [file_name]"
+else
+    cmd.exe /C start $1
 fi
 }
 
