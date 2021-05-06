@@ -1,5 +1,7 @@
 {
     "terminal.integrated.inheritEnv": false,
+    "terminal.integrated.fontFamily": "Cascadia Code",
+    "terminal.integrated.fontSize": 13,
     "editor.fontSize": 12,
     "editor.fontFamily": "'CamingoCode', 'sans-serif', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
     "workbench.startupEditor": "newUntitledFile",
