@@ -1,4 +1,15 @@
 {
+    "terminal.integrated.defaultProfile.linux": "bash (login shell)",
+    "terminal.integrated.profiles.linux": {
+        "bash (login shell)": {
+            "path": "/usr/bin/bash",
+            "args": ["-l"]
+        },
+        "bash (non login shell)": {
+            "path": "/usr/bin/bash",
+            "args": []
+        }
+    },
     "terminal.integrated.inheritEnv": false,
     "terminal.integrated.fontFamily": "Cascadia Code",
     "terminal.integrated.fontSize": 13,
