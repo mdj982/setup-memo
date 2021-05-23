@@ -46,6 +46,46 @@ Path: /usr/bin/code
 Parameters: . --working-directory=%d/%b
 Working Directory: %d/%b
 
+### C++ Formatter
+#### cpplint
+- See also https://github.com/cpplint/cpplint
+- Install pip
+  ````bash
+  # download get-pip
+  curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+  # for python3
+  sudo apt install python3-distutils
+  # install pip
+  python3 get-pip.py
+  # remove trash
+  rm get-pip.py
+  # may need to add path
+  export PATH=${PATH}:~/.local/bin
+  ````
+- Install cpplint
+  ````bash
+  pip install cpplint
+  ````
+- Usage (simplest)
+  ````bash
+  # be sure that ./CPPLINT.cfg exists
+  cpplint [filename]
+  ````
+
+### clang-format
+- Install
+  ````bash
+  sudo apt install clang-format
+  ````
+
+- Usage
+  ````bash
+  clang-format [filename]
+  # In the root of repository
+  clang-format -style=google -dump-config > .clang-format
+  # or use this ./.clang-format
+  ````
+
 ### LaTeX environment
 #### TeXLive
 Download link: http://ftp.jaist.ac.jp/pub/CTAN/systems/texlive/tlnet/install-tl-unx.tar.gz
