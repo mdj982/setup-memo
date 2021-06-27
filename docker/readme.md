@@ -54,15 +54,20 @@ docker run hello-world
 docker images # confirm
 docker pull # pull image
 docker rmi [image] # delete
+docker run --name [container name] -it [image] # interactive shell
+docker run -rm -v [host_dir]:[container_dir] [image] # remove container after running command
 ````
 
 #### About Container
 ````bash
 docker ps -a # show all containers
 docker ps # show running container
-docker build ... # build container
-docker start # start running container
-docker exec -it [container] [command] # exec on container
+docker create -it [image] # create container
+docker start [container] # start running container
+docker exec -it [container] -w [container_dir] [command] # exec on container
 docker stop [container] # stop running container
 docker rm [container] # remove container
+docker cp [container]:[container_dir] [host_dir] # copy directory from container
+docker cp [host_file] [container]:[container_file] # copy file to container
+docker commit [container] [new image name]
 ````
