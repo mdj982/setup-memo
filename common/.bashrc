@@ -128,9 +128,11 @@ fi
 ## - topps
 ## - substall
 ## - whitefmt
+## - extractline
+## - extractcol
 
 function myshell() {
-    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n whitefmt"
+    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n whitefmt \n extractline \n extractcol"
 }
 
 ##
@@ -164,7 +166,7 @@ if [ $# -ne 1 ]; then
 	echo "Usage: makecpp [filename_without_extension]"
 	echo "cf.    g++ -std=c++1z -O3 -Wall -fopenmp -o test test.cpp"
 else
-	g++ -std=c++1z -O3 -Wall -fopenmp -o $1 $1.cpp 
+	g++ -std=c++1z -O3 -Wall -fopenmp -o $1 $1.cpp
 fi
 }
 
@@ -257,4 +259,52 @@ else
     sed -i -e "s/[ \t]*$//" $*
     sed -i '$a\' $*
 fi
+}
+
+
+##
+function extractline() {
+    if [ $# -eq 0 ]; then
+        echo "Usage1: extractline [keywords] < [filename]"
+        echo "Usage2: cat [filenames] | extractline [keywords]"
+        echo "Usage3: extractline [keywords] \"!*\" < [filename]"
+    else
+        p=1
+        while read sbuf
+        do
+            sp=${@:p:1}
+            if [ "${sp:0:1}" != "!" ]; then
+                if [ "`echo ${sbuf} | grep -E \"${sp}\"`" ]; then
+                    echo ${sbuf}
+                    p=$((p % $# + 1))
+                fi
+            else
+                if [ "`echo ${sbuf} | grep -v -E \"${sp:1}\"`" ]; then
+                    echo ${sbuf}
+                    p=$((p % $# + 1))
+                fi
+            fi
+        done
+    fi
+}
+
+##
+function extractcol() {
+    if [ $# -eq 0 ]; then
+        echo "Usage1: extractcol [keywords] < [filename]"
+        echo "Usage2: cat [filenames] | extractcol [keywords]"
+    else
+        p=1
+        while read sbuf
+        do
+            sp=${@:p:1}
+            echo -n `echo ${sbuf} | awk '{print $'${sp}'}'`
+            if [ ${p} -eq $# ]; then
+                echo ""
+            else
+                echo -n ", "
+            fi
+            p=$((p % $# + 1))
+        done
+    fi
 }
