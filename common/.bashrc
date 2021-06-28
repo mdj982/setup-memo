@@ -280,6 +280,28 @@ function extractcol() {
         echo "Usage2: cat [filenames] | extractcol [column numbers]"
     else
         printf -v columns '%s\t' "$@"
-        awk -v buf="${columns::-1}" 'BEGIN {n=split(buf, cols, "\t"); p = 1} {printf $cols[p]" "; p = p % n + 1; if (p == 1) printf "\n";}'
+        awk -v buf="${columns::-1}" 'BEGIN {n=split(buf, cols, "\t"); p = 1} {printf $cols[p]; p = p % n + 1; if (p == 1) printf "\n"; else printf " ";}'
+    fi
+}
+
+##
+function extractcolcsvfmt() {
+    if [ $# -eq 0 ]; then
+        echo "Usage1: extractcolcsvfmt [column numbers] < [filename]"
+        echo "Usage2: cat [filenames] | extractcolcsvfmt [column numbers]"
+    else
+        printf -v columns '%s\t' "$@"
+        awk -v buf="${columns::-1}" 'BEGIN {n=split(buf, cols, "\t"); p = 1} {printf $cols[p]; p = p % n + 1; if (p == 1) printf "\n"; else printf ", ";}'
+    fi
+}
+
+##
+function extractcoltsvfmt() {
+    if [ $# -eq 0 ]; then
+        echo "Usage1: extractcolcsvfmt [column numbers] < [filename]"
+        echo "Usage2: cat [filenames] | extractcolcsvfmt [column numbers]"
+    else
+        printf -v columns '%s\t' "$@"
+        awk -v buf="${columns::-1}" 'BEGIN {n=split(buf, cols, "\t"); p = 1} {printf $cols[p]; p = p % n + 1; if (p == 1) printf "\n"; else printf "\t";}'
     fi
 }
