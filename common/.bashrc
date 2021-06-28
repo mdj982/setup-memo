@@ -261,50 +261,25 @@ else
 fi
 }
 
-
 ##
 function extractline() {
     if [ $# -eq 0 ]; then
         echo "Usage1: extractline [keywords] < [filename]"
         echo "Usage2: cat [filenames] | extractline [keywords]"
-        echo "Usage3: extractline [keywords] \"!*\" < [filename]"
+        echo "Note: Use escape sequence in keywords as \"\\\\\\.\""
     else
-        p=1
-        while read sbuf
-        do
-            sp=${@:p:1}
-            if [ "${sp:0:1}" != "!" ]; then
-                if [ "`echo ${sbuf} | grep -E \"${sp}\"`" ]; then
-                    echo ${sbuf}
-                    p=$((p % $# + 1))
-                fi
-            else
-                if [ "`echo ${sbuf} | grep -v -E \"${sp:1}\"`" ]; then
-                    echo ${sbuf}
-                    p=$((p % $# + 1))
-                fi
-            fi
-        done
+        printf -v keywords '%s\t' "$@"
+        awk -v buf="${keywords::-1}" 'BEGIN {n=split(buf, keys, "\t"); p = 1} {if ($0 ~ keys[p]) {print $0; p = p % n + 1;}}'
     fi
 }
 
 ##
 function extractcol() {
     if [ $# -eq 0 ]; then
-        echo "Usage1: extractcol [keywords] < [filename]"
-        echo "Usage2: cat [filenames] | extractcol [keywords]"
+        echo "Usage1: extractcol [column numbers] < [filename]"
+        echo "Usage2: cat [filenames] | extractcol [column numbers]"
     else
-        p=1
-        while read sbuf
-        do
-            sp=${@:p:1}
-            echo -n `echo ${sbuf} | awk '{print $'${sp}'}'`
-            if [ ${p} -eq $# ]; then
-                echo ""
-            else
-                echo -n ", "
-            fi
-            p=$((p % $# + 1))
-        done
+        printf -v columns '%s\t' "$@"
+        awk -v buf="${columns::-1}" 'BEGIN {n=split(buf, cols, "\t"); p = 1} {printf $cols[p]" "; p = p % n + 1; if (p == 1) printf "\n";}'
     fi
 }
