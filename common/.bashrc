@@ -130,9 +130,10 @@ fi
 ## - whitefmt
 ## - extractline
 ## - extractcol
+## - convertpdf2png
 
 function myshell() {
-    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n whitefmt \n extractline \n extractcol"
+    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n whitefmt \n extractline \n extractcol \n convertpdf2png"
 }
 
 ##
@@ -258,6 +259,33 @@ if [ $# -eq 0 ]; then
 else
     sed -i -e "s/[ \t]*$//" $*
     sed -i '$a\' $*
+fi
+}
+
+##
+function convertpdf2png() {
+if [ $# -eq 0 ]; then
+    echo "Usage: convertpdf2png [PDF filenames]"
+    echo "cf.    convert -verbose -density 300 -trim [fheader].pdf -quality 100 -flatten -sharpen 0x1.0 [fheader].png"
+else
+    for fname in $@; do
+        fheader=`dirname ${fname}`/`basename ${fname} .pdf`
+        convert -verbose -density 300 -trim ${fheader}.pdf -quality 100 -flatten -sharpen 0x1.0 ${fheader}.png
+    done
+fi
+}
+
+##
+function convertpdf2pngtrim() {
+if [ $# -eq 0 ]; then
+    echo "Usage: convertpdf2pngtrim [PDF filenames]"
+    echo "cf.    convert -verbose -density 300 -trim [fheader].pdf -quality 100 -flatten -sharpen 0x1.0 [fheader].png"
+else
+    for fname in $@; do
+        fheader=`dirname ${fname}`/`basename ${fname} .pdf`
+        convert -verbose -density 300 -trim ${fheader}.pdf -quality 100 -flatten -sharpen 0x1.0 ${fheader}.png
+        convert -trim ${fheader}.png ${fheader}.png
+    done
 fi
 }
 
