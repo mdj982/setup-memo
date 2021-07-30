@@ -1,0 +1,13 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "C++ Debug Build",
+            "type": "shell",
+            "command": "make clean && make -j4 CXXEXTFLAGS=\"-g\"",
+            "problemMatcher": [
+                "$gcc"
+            ]
+        }
+    ]
+}

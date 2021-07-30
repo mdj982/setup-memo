@@ -1,0 +1,13 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "CUDA Debug Build",
+            "type": "shell",
+            "command": "make clean && make -j4 NVCCEXTFLAGS=\"-g -G\" CXXEXTFLAGS=\"-g\"",
+            "problemMatcher": [
+                "$nvcc"
+            ]
+        }
+    ]
+}
