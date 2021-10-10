@@ -167,7 +167,7 @@ alias zref="~/myshell/zref"
 ## - convertpng2jpg
 
 function myshell() {
-    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n whitefmt \n extractline \n extractcol[csvfmt/tsvfmt] \n convertpdf2png[trim]"
+    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n whitefmt \n extractline \n extractcol[csvfmt/tsvfmt] \n convertpdf2png[trim]" \n dockermnt
 }
 
 ##
@@ -374,4 +374,14 @@ function extractcoltsvfmt() {
         printf -v columns '%s\t' "$@"
         awk -v buf="${columns::-1}" 'BEGIN {n=split(buf, cols, "\t"); p = 1} {printf $cols[p]; p = p % n + 1; if (p == 1) printf "\n"; else printf "\t";}'
     fi
+}
+
+##
+function dockermnt() {
+if [ $# -ne 1 ]; then
+    echo "Usage: dockermnt [docker image name]"
+    echo "cf.    docker run --gpus all -it -v `pwd`:/`basename \`pwd\`` -w /`basename \`pwd\`` [docker image name]"
+else
+    docker run --gpus all -it -v `pwd`:/`basename \`pwd\`` -w /`basename \`pwd\`` $1
+fi
 }

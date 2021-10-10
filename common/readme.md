@@ -83,6 +83,15 @@ Host [short name]
     ServerAliveInterval 60
 ````
 
+Example for GitHub:
+````
+Host github.com
+    User mdj982
+    # Port 22
+    IdentityFile ~/.ssh/keys/[pem file]
+    ServerAliveInterval 60
+````
+
 Generate key:
 ````bash
 $ mkdir -p ~/.ssh/keys
