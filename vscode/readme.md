@@ -111,6 +111,9 @@ Working Directory: %d/%b
   }
   ````
 
+- force new page: insert into markdown file: <div style="page-break-after: always;"></div>
+- show total pages in `settings.json`: <span class='totalPages'></span>
+
 ### LaTeX environment
 #### TeXLive
 Download link: http://ftp.jaist.ac.jp/pub/CTAN/systems/texlive/tlnet/install-tl-unx.tar.gz
