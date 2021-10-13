@@ -16,4 +16,5 @@ code --install-extension mhutchie.git-graph --force
 code --install-extension eamodio.gitlens --force
 code --install-extension asciidoctor.asciidoctor-vscode --force
 code --install-extension jebbs.plantuml --force
+code --install-extension yzane.markdown-pdf --force
 # code --install-extension  --force

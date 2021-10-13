@@ -86,6 +86,30 @@ Working Directory: %d/%b
   # or use this ./.clang-format
   ````
 
+### markdown-pdf
+- Install font
+  ````bash
+  sudo apt install fonts-noto-cjk
+  sudo apt install fonts-noto-cjk-extra
+  ````
+- In `settings.json`
+  ````json
+  "markdown-pdf.styles": [
+        "css/markdown-pdf.css"
+    ],
+    "markdown-pdf.margin.top": "2cm",
+    "markdown-pdf.margin.bottom": "2.5cm",
+    "markdown-pdf.printBackground": true,
+    "markdown-pdf.displayHeaderFooter": true,
+    "markdown-pdf.footerTemplate": "<div style=\"position: relative; margin-top: 0.5cm; margin-left: 1cm; margin-right: 1cm; width: 100%; opacity: 0.5;\"><img style=\"height: 48px;\" src=\"data:image/png;base64,LOGO_BASE64ENCODED\" /></div><div style=\"position: relative; margin-top: 0.5cm; margin-bottom: 0.5cm; margin-left: 1cm; margin-right: 1cm; font-size: 9px; width: 100%;\"><div style=\"position: absolute; width: 100%; top: 0.3cm; text-align: right;\">p.<span class='pageNumber'></span></div></div>"
+  ````
+- In `css/markdown-pdf.css`
+  ````css
+  body {
+      font-family: "Noto Sans CJK JP"
+  }
+  ````
+
 ### LaTeX environment
 #### TeXLive
 Download link: http://ftp.jaist.ac.jp/pub/CTAN/systems/texlive/tlnet/install-tl-unx.tar.gz
