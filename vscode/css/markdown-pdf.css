@@ -1,5 +1,6 @@
 body {
-    font-family: "Noto Sans CJK JP"
+    font-family: "Noto Sans CJK JP";
+    font-size: 0.75em;
 }
 
 img {
@@ -58,14 +59,24 @@ h4 {
 h4:before {
     background: #000000;
     content: "";
-    height: 4px;
-    width: 16px;
+    height: 3.5px;
+    width: 15px;
     left: 0px;
     position: absolute;
     top: 10px;
 }
 
 :not(pre):not(.hljs) > code {
-    background: #dddddd;
-    color: #993355;
+    background: #eeeeee;
+    color: #cc6688;
+}
+
+code {
+    font-size: 0.9em;
+}
+
+table {
+    margin-top: 0.25cm;
+    margin-bottom: 0.25cm;
+    border: 1px solid;
 }
