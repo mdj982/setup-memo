@@ -46,4 +46,21 @@ h2:before {
 
 h3 {
     text-decoration: underline;
+    position: relative;
+}
+
+h4 {
+    font-weight: normal;
+    position: relative;
+    padding-left: 25px;
+}
+
+h4:before {
+    background: #000000;
+    content: "";
+    height: 4px;
+    width: 16px;
+    left: 0px;
+    position: absolute;
+    top: 10px;
 }
