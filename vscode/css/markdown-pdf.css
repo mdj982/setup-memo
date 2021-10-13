@@ -64,3 +64,8 @@ h4:before {
     position: absolute;
     top: 10px;
 }
+
+:not(pre):not(.hljs) > code {
+    background: #dddddd;
+    color: #993355;
+}
