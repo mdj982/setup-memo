@@ -37,3 +37,10 @@ $ npm install -g @marp-team/marp-cli
 ````bash
 $ marp --html true slide-src.md -o slide.html
 ````
+
+## Other Memo
+````html
+<div align="center">
+<p><img src="foo.png" alt="foo" width=50% /></p>
+</div>
+````
