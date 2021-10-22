@@ -12,4 +12,6 @@ code --install-extension ms-python.python --force
 code --install-extension ms-vscode-remote.remote-ssh --force
 code --install-extension mechatroner.rainbow-csv --force
 code --install-extension nvidia.nsight-vscode-edition --force
+code --install-extension mhutchie.git-graph --force
+code --install-extension eamodio.gitlens --force
 # code --install-extension  --force
