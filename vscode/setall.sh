@@ -1,7 +1,7 @@
 #!/bin/bash
 
-cp settings.json ~/.config/Code/User/settings.json
-cp keybindings.json ~/.config/Code/User/keybindings.json
+# cp settings.json ~/.config/Code/User/settings.json
+# cp keybindings.json ~/.config/Code/User/keybindings.json
 code --install-extension ms-vscode.cpptools --force
 code --install-extension torn4dom4n.latex-support --force
 code --install-extension james-yu.latex-workshop --force
