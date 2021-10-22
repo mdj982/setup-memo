@@ -118,6 +118,39 @@ fi
 
 ######################################################################
 
+# Linux
+alias open=xdg-open
+
+# Win
+function open() {
+if [ $# -ne 1 ]; then
+	echo "Usage: open [file_name]"
+else
+    cmd.exe /C start $1
+fi
+}
+
+# Win
+function nautilus() {
+if [ $# -ge 2 ]; then
+    echo "Usage: nautilus [directory_name]"
+elif [ $# -eq 1 ]; then
+    case "$1" in
+        /* ) explorer.exe `wslpath -w "$1"`;;
+        ~* ) explorer.exe `wslpath -w "$1"`;;
+        * ) explorer.exe `wslpath -w "$PWD/$1"`;;
+    esac
+else
+    explorer.exe `wslpath -w "$PWD"`
+fi
+}
+
+# for dualboot
+alias mnt="sudo bash ~/myshell/mnt.sh"
+
+# for paper reading
+alias zref="~/myshell/zref"
+
 # include my shells
 ## - content
 ## - filename
@@ -129,17 +162,13 @@ fi
 ## - substall
 ## - whitefmt
 ## - extractline
-## - extractcol
-## - convertpdf2png
+## - extractcol[csvfmt/tsvfmt]
+## - convertpdf2png[trim]
+## - convertpng2jpg
 
 function myshell() {
-    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n whitefmt \n extractline \n extractcol \n convertpdf2png"
+    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n whitefmt \n extractline \n extractcol[csvfmt/tsvfmt] \n convertpdf2png[trim]"
 }
-
-##
-alias open=xdg-open
-alias mnt="sudo bash ~/myshell/mnt.sh"
-alias zref="~/myshell/zref"
 
 ##
 function content() {
@@ -285,6 +314,19 @@ else
         fheader=`dirname ${fname}`/`basename ${fname} .pdf`
         convert -verbose -density 300 -trim ${fheader}.pdf -quality 100 -flatten -sharpen 0x1.0 ${fheader}.png
         convert -trim ${fheader}.png ${fheader}.png
+    done
+fi
+}
+
+##
+function convertpng2jpg() {
+if [ $# -eq 0 ]; then
+    echo "Usage: convertpdf2pngtrim [png filenames]"
+    echo "cf.    convert [fheader].png [fheader].jpg"
+else
+    for fname in $@; do
+        fheader=`dirname ${fname}`/`basename ${fname} .png`
+        convert ${fheader}.png ${fheader}.jpg
     done
 fi
 }
