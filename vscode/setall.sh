@@ -14,4 +14,6 @@ code --install-extension mechatroner.rainbow-csv --force
 code --install-extension nvidia.nsight-vscode-edition --force
 code --install-extension mhutchie.git-graph --force
 code --install-extension eamodio.gitlens --force
+code --install-extension asciidoctor.asciidoctor-vscode --force
+code --install-extension jebbs.plantuml --force
 # code --install-extension  --force
