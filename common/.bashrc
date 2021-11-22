@@ -228,9 +228,9 @@ fi
 function sshgen() {
 if [ $# -ne 1 ]; then
     echo "Usage: sshgen [filename_without_extension]"
-    echo "cf.    ssh-keygen -t rsa -b 4096 -f [filename_without_extension].pub "
+    echo "cf.    ssh-keygen -t ed25519 -f [filename_without_extension].pub "
 else
-    ssh-keygen -t rsa -b 4096 -f $1
+    ssh-keygen -t ed25519 -f $1
     mv $1 $1.pem
 fi
 }
