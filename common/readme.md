@@ -100,6 +100,29 @@ $ chmod 600 ~/.ssh/keys/[filename_without_extension].pem
 $ cat ~/.ssh/keys/[filename_without_extension].pub | ssh [short name] "cat >> ~/.ssh/authorized_keys"
 ````
 
+### Device format
+
+To confirm
+
+````bash
+$ lsblk
+$ sudo parted /dev/sda --script print
+````
+
+Initialize
+
+````bash
+$ sudo dd if=/dev/zero of=/dev/sda bs=4096 status=progress
+````
+
+Format
+
+````bash
+$ sudo parted /dev/sda --script -- mklabel gpt
+$ sudo parted /dev/sda --script -- mkpart primary ext4 0% 100%
+$ sudo mkfs.ext4 -F /dev/sda1
+````
+
 ### Device blacklist
 Location:
 /etc/modproble.d/blacklist.conf
