@@ -140,7 +140,7 @@ $ sudo update-alternatives --install /usr/bin/gcc gcc `which gcc-10` 1020 # vers
 $ sudo update-alternatives --install /usr/bin/g++ g++ `which g++-10` 1020 # version to int
 ````
 
-### About shell
+### Switch shell to bash
 ````bash
 $ echo $SHELL
 # /bin/sh
@@ -149,6 +149,20 @@ $ exit
 $ echo $SHELL
 # /bin/bash
 ````
+
+### Create user
+- from sudo
+  ````
+  #!/bin/bash
+  useradd -m -s /bin/bash mdj982
+  echo "mdj982:tmppasswd" | chpasswd
+  gpasswd -a mdj982 sudo
+  mkdir /home/mdj982/.ssh
+  echo "ssh-rsa ..." > /home/mdj982/.ssh/authorized_keys
+  chown -R mdj982:mdj982 /home/mdj982/.ssh
+  chmod 700 /home/mdj982/.ssh
+  chmod 600 /home/mdj982/.ssh/authorized_keys
+  ````
 
 ### About time (hardware clock vs system clock)
 ````bash
