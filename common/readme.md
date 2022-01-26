@@ -171,3 +171,39 @@ $ sudo hwclock -D --systohc --localtime
 
 ### About network card
 - Disable: Windows -> "Device Manager" -> "Network Adapter" -> "Power Management" -> "Wake on Magic Packet from power off state"
+
+### SSH Connection to WSL2
+
+#### On WSL2
+
+- `sudo vim /etc/sudoers.d/sudo_service_without_passwd`
+  ````
+  mdj982 ALL=NOPASSWD: /usr/sbin/service ssh restart
+  ````
+  - This setting allows `sudo /usr/sbin/service ssh restart` to run without password for the specific user 
+
+#### On Windows
+
+- Prepare a *.ps1 script as follows
+  ````ps1
+  netsh advfirewall firewall delete rule name="Open Port for WSL2"
+  # netsh advfirewall firewall show rule name="Open Port for WSL2"
+  netsh advfirewall firewall add rule name="Open Port for WSL2" dir=in action=allow protocol=TCP localport=2222
+  $wsl_ip = (wsl hostname -I).trim()
+  wsl sudo service ssh restart
+  netsh interface portproxy delete v4tov4 listenport=2222
+  # netsh interface portproxy show v4tov4
+  netsh interface portproxy add v4tov4 listenport=2222 connectaddress=$wsl_ip connectport=22
+  ````
+  - Open firewall on port 2222
+  - forward to port 22 on wsl from listen port 2222 for any listen address
+
+- Launch APP "Task Scheduler" and let the script run after each Windows reboot
+  <img src="figure/figure_automatically_launch_wsl_sshd_1.jpg" width="400px" max-width="100%">
+  <img src="figure/figure_automatically_launch_wsl_sshd_2.jpg" width="400px" max-width="100%">
+  <img src="figure/figure_automatically_launch_wsl_sshd_3.jpg" width="400px" max-width="100%">
+  - `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`
+  - `-ExecutionPolicy Bypass $PATH_OF_THE_SCRIPT`
+  - `C:\Users\mdj982\Desktop\Workspace`: Run on any safe directory
+
+- Reboot Windows and now you can connect to `<Windows IP address>:2222` without logging in windows.
