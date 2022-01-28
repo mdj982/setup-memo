@@ -34,3 +34,7 @@ export PATH=${PATH}:/usr/local/texlive/2019/bin/x86_64-linux
 
 # emsdk
 # source ~/Desktop/GitHub/emsdk/emsdk_env.sh
+
+# change directory for each login (mainly SSH)
+# cd "/mnt/c/Users/mdj982/Desktop/Workspace"
+# unset OLDPWD

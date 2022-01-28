@@ -121,16 +121,16 @@ fi
 # Linux
 alias open=xdg-open
 
-# Win
+# WSL
 function open() {
 if [ $# -ne 1 ]; then
-	echo "Usage: open [file_name]"
+    echo "Usage: open [file_name]"
 else
     cmd.exe /C start $1
 fi
 }
 
-# Win
+# WSL
 function nautilus() {
 if [ $# -ge 2 ]; then
     echo "Usage: nautilus [directory_name]"
@@ -145,8 +145,27 @@ else
 fi
 }
 
+# WSL
+function append_winpath_in_lowest_priority() {
+    local sbuf=$(cd /mnt/c && /mnt/c/Windows/system32/cmd.exe /c echo %path% | sed -e 's/\r//g' | awk 'BEGIN {FS=";"} { for (i = 1; i <= NF; i++) { printf("\"%s \" ", $i); } }')
+    local sresult=$(eval 'for word in '$sbuf'; do wslpath -u "$word" | xargs; done' | tr '\n' ':')
+    if [ ${sresult: -1} = ":" ]; then
+        sresult=${sresult/%?/}
+    fi
+    PATH="$PATH:$sresult"
+}
+# need to run the following command in order to disable automatically include WINPATH
+# ````
+# sudo bash -c "echo -e '[interop]\nappendWindowsPath = false' >> /etc/wsl.conf"
+# ````
+# run and unset the function by remove comment out of the following command
+# ````
+# append_winpath_in_lowest_priority
+# unset append_winpath_in_lowest_priority
+# ````
+
 # for dualboot
-alias mnt="sudo bash ~/myshell/mnt.sh"
+# alias mnt="sudo bash ~/myshell/mnt.sh"
 
 # for paper reading
 alias zref="~/myshell/zref"
@@ -165,6 +184,7 @@ alias zref="~/myshell/zref"
 ## - extractcol[csvfmt/tsvfmt]
 ## - convertpdf2png[trim]
 ## - convertpng2jpg
+## - dockermnt
 
 function myshell() {
     echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n whitefmt \n extractline \n extractcol[csvfmt/tsvfmt] \n convertpdf2png[trim]" \n dockermnt
@@ -298,7 +318,7 @@ if [ $# -eq 0 ]; then
     echo "cf.    convert -verbose -density 300 -trim [fheader].pdf -quality 100 -flatten -sharpen 0x1.0 [fheader].png"
 else
     for fname in $@; do
-        fheader=`dirname ${fname}`/`basename ${fname} .pdf`
+        local fheader=`dirname ${fname}`/`basename ${fname} .pdf`
         convert -verbose -density 300 -trim ${fheader}.pdf -quality 100 -flatten -sharpen 0x1.0 ${fheader}.png
     done
 fi
@@ -311,7 +331,7 @@ if [ $# -eq 0 ]; then
     echo "cf.    convert -verbose -density 300 -trim [fheader].pdf -quality 100 -flatten -sharpen 0x1.0 [fheader].png"
 else
     for fname in $@; do
-        fheader=`dirname ${fname}`/`basename ${fname} .pdf`
+        local fheader=`dirname ${fname}`/`basename ${fname} .pdf`
         convert -verbose -density 300 -trim ${fheader}.pdf -quality 100 -flatten -sharpen 0x1.0 ${fheader}.png
         convert -trim ${fheader}.png ${fheader}.png
     done
@@ -325,7 +345,7 @@ if [ $# -eq 0 ]; then
     echo "cf.    convert [fheader].png [fheader].jpg"
 else
     for fname in $@; do
-        fheader=`dirname ${fname}`/`basename ${fname} .png`
+        local fheader=`dirname ${fname}`/`basename ${fname} .png`
         convert ${fheader}.png ${fheader}.jpg
     done
 fi
