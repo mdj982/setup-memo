@@ -198,12 +198,20 @@ $ sudo hwclock -D --systohc --localtime
   - Open firewall on port 2222
   - forward to port 22 on wsl from listen port 2222 for any listen address
 
+- Prepare a launch.vbs script as follows
+  ````ps1
+  command = "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe  -ExecutionPolicy Bypass C:\Users\mdj982\Desktop\Workspace\miscellaneous\restart_and_forward_wsl_sshd.ps1"
+  set shell = CreateObject("WScript.Shell")
+  shell.Run command,0
+  ````
+  - Run the above *.ps1 script in background
+
 - Launch APP "Task Scheduler" and let the script run after each Windows reboot
   <img src="figure/figure_automatically_launch_wsl_sshd_1.jpg" width="400px" max-width="100%">
   <img src="figure/figure_automatically_launch_wsl_sshd_2.jpg" width="400px" max-width="100%">
   <img src="figure/figure_automatically_launch_wsl_sshd_3.jpg" width="400px" max-width="100%">
-  - `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`
-  - `-ExecutionPolicy Bypass $PATH_OF_THE_SCRIPT`
-  - `C:\Users\mdj982\Desktop\Workspace`: Run on any safe directory
+  - (path to `launch.vbs`)
+  - (blank)
+  - (Any safe directory)
 
 - Reboot Windows and now you can connect to `<Windows IP address>:2222` without logging in windows.
