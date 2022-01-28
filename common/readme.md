@@ -180,7 +180,7 @@ $ sudo hwclock -D --systohc --localtime
   ````
   mdj982 ALL=NOPASSWD: /usr/sbin/service ssh restart
   ````
-  - This setting allows `sudo /usr/sbin/service ssh restart` to run without password for the specific user 
+  - This setting allows `sudo /usr/sbin/service ssh restart` to run without password for the specific user
 
 #### On Windows
 
