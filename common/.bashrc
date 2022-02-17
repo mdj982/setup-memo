@@ -185,9 +185,10 @@ alias zref="~/myshell/zref"
 ## - convertpdf2png[trim]
 ## - convertpng2jpg
 ## - dockermnt
+## - showlargefile
 
 function myshell() {
-    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n whitefmt \n extractline \n extractcol[csvfmt/tsvfmt] \n convertpdf2png[trim]" \n dockermnt
+    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n whitefmt \n extractline \n extractcol[csvfmt/tsvfmt] \n convertpdf2png[trim] \n dockermnt \n showlargefile"
 }
 
 ##
@@ -398,10 +399,20 @@ function extractcoltsvfmt() {
 
 ##
 function dockermnt() {
-if [ $# -ne 1 ]; then
-    echo "Usage: dockermnt [docker image name]"
-    echo "cf.    docker run --gpus all -it -v `pwd`:/`basename \`pwd\`` -w /`basename \`pwd\`` [docker image name]"
-else
-    docker run --gpus all -it -v `pwd`:/`basename \`pwd\`` -w /`basename \`pwd\`` $1
-fi
+        if [ $# -ne 1 ]; then
+        echo "Usage: dockermnt [docker image name]"
+        echo "cf.    docker run --gpus all -it -v `pwd`:/`basename \`pwd\`` -w /`basename \`pwd\`` [docker image name]"
+        else
+        docker run --gpus all -it -v `pwd`:/`basename \`pwd\`` -w /`basename \`pwd\`` $1
+        fi
+}
+
+##
+function showlargefile() {
+        if [ $# -ne 1 ]; then
+                echo "Usage: showlargefile <depth>"
+                echo "cf.    du --max-depth=<depth> -ah ./ | sort -rh | head -n 10"
+        else
+                du --max-depth=$1 -ah ./ | sort -rh | head -n 10
+        fi
 }
