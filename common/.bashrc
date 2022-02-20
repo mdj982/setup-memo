@@ -169,6 +169,7 @@ function append_winpath_in_lowest_priority() {
 
 # for paper reading
 alias zref="~/myshell/zref"
+alias oneliner="~/myshell/oneliner"
 
 # include my shells
 ## - content
