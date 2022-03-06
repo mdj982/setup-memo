@@ -121,12 +121,22 @@ fi
 # Linux
 alias open=xdg-open
 
-# WSL
+# WSL, Win10
 function open() {
 if [ $# -ne 1 ]; then
     echo "Usage: open [file_name]"
 else
     cmd.exe /C start $1
+fi
+}
+
+# WSL2, Win11
+function open() {
+if [ $# -ne 1 ]; then
+    echo "Usage: open [file_name]"
+else
+    abs_fname=$(wslpath -w $(readlink -f $1))
+    cmd.exe /C start $abs_fname
 fi
 }
 
