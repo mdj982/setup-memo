@@ -427,3 +427,25 @@ function showlargefile() {
                 du --max-depth=$1 -ah ./ | sort -rh | head -n 10
         fi
 }
+
+##
+function binmatch() {
+    if [ $# -lt 2 ]; then
+        echo "Usage: binmatch <text-file> <pattern-file>"
+    else
+        local textfile=$(mktemp text.tmp.XXXXXX)
+        od -tx1 -An $1 | sed -e "s/ /x/g" | tr '\n' ' ' | sed -e "s/ //g" > $textfile
+        local textsize=$(stat --format="%s" $1)
+        for fname in ${@:2}; do
+            local patternsize=$(stat --format="%s" $fname)
+            if [ $textsize -ge $patternsize ]; then
+                local pattern=$(od -tx1 -An $fname | sed -e "s/ /x/g" | tr '\n' ' ' | sed -e "s/ //g")
+                local offsets=$(grep -ob $pattern $textfile | grep -o "^.*:" | sed 's/.$/\/3/' | bc)
+                if [  -n "$offsets" ]; then
+                    echo $fname: $offsets
+                fi
+            fi
+        done
+        rm $textfile
+    fi
+}
