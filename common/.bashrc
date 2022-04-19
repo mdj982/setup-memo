@@ -197,9 +197,11 @@ alias oneliner="~/myshell/oneliner"
 ## - convertpng2jpg
 ## - dockermnt
 ## - showlargefile
+## - binmatch
+## - psall
 
 function myshell() {
-    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n whitefmt \n extractline \n extractcol[csvfmt/tsvfmt] \n convertpdf2png[trim] \n dockermnt \n showlargefile"
+    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n whitefmt \n extractline \n extractcol[csvfmt/tsvfmt] \n convertpdf2png[trim] \n dockermnt \n showlargefile \n binmatch \n psall"
 }
 
 ##
@@ -454,5 +456,5 @@ function binmatch() {
 
 ##
 function psall() {
-    ps -A -o user,uid,group,gid,pid,ppid,start_time,time,tty,%cpu,%mem,comm
+    ps -A -o user,uid,group,gid,pid,ppid,opri,ni,cls,start_time,time,tty,%cpu,%mem,comm
 }
