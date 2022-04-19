@@ -451,3 +451,8 @@ function binmatch() {
         echo "OK. Finished."
     fi
 }
+
+##
+function psall() {
+    ps -A -o user,uid,group,gid,pid,ppid,start_time,time,tty,%cpu,%mem,comm
+}
