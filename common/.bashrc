@@ -164,7 +164,7 @@ function append_winpath_in_lowest_priority() {
     fi
     PATH="$PATH:$sresult"
 }
-# need to run the following command in order to disable automatically include WINPATH
+# run the following command in order to disable automatic include of WINPATH
 # ````
 # sudo bash -c "echo -e '[interop]\nappendWindowsPath = false' >> /etc/wsl.conf"
 # ````
