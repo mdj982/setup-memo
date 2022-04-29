@@ -47,12 +47,12 @@ esac
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
     else
-	color_prompt=
+    color_prompt=
     fi
 fi
 
@@ -207,54 +207,54 @@ function myshell() {
 ##
 function content() {
 if [ $# -ne 1 ]; then
-	echo "Usage: content [content]"
-	echo "cf.    grep \"[content]\" -rl ./"
+    echo "Usage: content [content]"
+    echo "cf.    grep \"[content]\" -rl ./"
 else
-	grep "$1" -rl ./
+    grep "$1" -rl ./
 fi
 }
 
 ##
 function filename() {
 if [ $# -ne 1 ]; then
-	echo "Usage: filename [partial_filename]"
-	echo "cf.    find ./ -maxdepth [depth] -type f -name \"*[partial_filename]*\""
+    echo "Usage: filename [partial_filename]"
+    echo "cf.    find ./ -maxdepth [depth] -type f -name \"*[partial_filename]*\""
 else
-	find ./ -type f -name "*$1*"
+    find ./ -type f -name "*$1*"
 fi
 }
 
 ##
 function makecpp() {
 if [ $# -ne 1 ]; then
-	echo "Usage: makecpp [filename_without_extension]"
-	echo "cf.    g++ -std=c++1z -O3 -Wall -fopenmp -o test test.cpp"
+    echo "Usage: makecpp [filename_without_extension]"
+    echo "cf.    g++ -std=c++1z -O3 -Wall -fopenmp -o test test.cpp"
 else
-	g++ -std=c++1z -O3 -Wall -fopenmp -o $1 $1.cpp
+    g++ -std=c++1z -O3 -Wall -fopenmp -o $1 $1.cpp
 fi
 }
 
 ##
 function touchcpp() {
 if [ $# -ne 1 ]; then
-	echo "Usage: touchcpp [filename_without_extension]"
+    echo "Usage: touchcpp [filename_without_extension]"
 elif [ -e $1.hpp ]; then
     echo "Error: "$1".hpp exists."
 elif [ -e $1.cpp ]; then
     echo "Error: "$1".cpp exists."
 else
-	touch $1".hpp"
-	if [ $? -eq 1 ]; then
-		return 1
-	fi
-	touch $1".cpp"
-	if [ $? -eq 1 ]; then
-    	return 1
-	fi
-	local basename=${1##*/}
-	local UPPERNAME=${basename^^}
-	echo -e "#ifndef "${UPPERNAME//-/_}_HPP"\n""#define "${UPPERNAME//-/_}_HPP"\n\n""#endif // "${UPPERNAME//-/_}_HPP >> $1".hpp"
-	echo -e "#include \""${basename}".hpp\"" >> $1".cpp"
+    touch $1".hpp"
+    if [ $? -eq 1 ]; then
+        return 1
+    fi
+    touch $1".cpp"
+    if [ $? -eq 1 ]; then
+        return 1
+    fi
+    local basename=${1##*/}
+    local UPPERNAME=${basename^^}
+    echo -e "#ifndef "${UPPERNAME//-/_}_HPP"\n""#define "${UPPERNAME//-/_}_HPP"\n\n""#endif // "${UPPERNAME//-/_}_HPP >> $1".hpp"
+    echo -e "#include \""${basename}".hpp\"" >> $1".cpp"
 fi
 }
 
@@ -282,11 +282,11 @@ fi
 ##
 function topps() {
 if [ $# -ne 1 ]; then
-	echo "Usage: topps [process_name]"
+    echo "Usage: topps [process_name]"
 else
-	local pids=`pgrep $1`
-	pids=`echo ${pids} | awk '{ gsub(" ", ","); print }'`
-	top -p ${pids}
+    local pids=`pgrep $1`
+    pids=`echo ${pids} | awk '{ gsub(" ", ","); print }'`
+    top -p ${pids}
 fi
 }
 
