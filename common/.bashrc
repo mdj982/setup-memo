@@ -182,26 +182,13 @@ alias zref="~/myshell/zref"
 alias oneliner="~/myshell/oneliner"
 
 # include my shells
-## - content
-## - filename
-## - makecpp
-## - touchcpp
-## - sshgen
-## - nautback
-## - topps
-## - substall
-## - whitefmt
-## - extractline
-## - extractcol[csvfmt/tsvfmt]
-## - convertpdf2png[trim]
-## - convertpng2jpg
-## - dockermnt
-## - showlargefile
-## - binmatch
-## - psall
-
 function myshell() {
-    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n whitefmt \n extractline \n extractcol[csvfmt/tsvfmt] \n convertpdf2png[trim] \n dockermnt \n showlargefile \n binmatch \n psall"
+    echo -n -e "\
+    content\tfilename\tmakecpp\ttouchcpp\n\
+    sshgen\tnautback\ttopps\tsubstall\n\
+    whitefmt\textractline\textractcol[csvfmt/tsvfmt]\tconvertpdf2png[trim]\n\
+    dockermnt\tshowlargefile\tbinmatch\tpsall\n\
+    " | column -t
 }
 
 ##
@@ -433,23 +420,25 @@ function showlargefile() {
 ##
 function binmatch() {
     if [ $# -lt 2 ]; then
-        echo "Usage: binmatch <text-file> <pattern-file>"
+        echo "Usage: binmatch <pattern-file> <text-file>"
     else
-        local textfile=$(mktemp text.tmp.XXXXXX)
-        od -tx1 -An $1 | sed -e "s/ /x/g" | tr '\n' ' ' | sed -e "s/ //g" > $textfile
-        local textsize=$(stat --format="%s" $1)
-        echo "filename : matched offsets ( filesize )"
-        for fname in ${@:2}; do
-            local patternsize=$(stat --format="%s" $fname)
-            if [ $textsize -ge $patternsize ]; then
-                local pattern=$(od -tx1 -An $fname | sed -e "s/ /x/g" | tr '\n' ' ' | sed -e "s/ //g")
-                local offsets=$(grep -ob $pattern $textfile | grep -o "^.*:" | sed 's/.$/\/3/' | bc)
-                if [  -n "$offsets" ]; then
-                    echo $fname : $offsets "  ( size = $patternsize )"
+        local patternsize=$(stat --format="%s" $1)
+        if [ $patternsize -le 43690 ]; then
+            local pattern=$(od -tx1 -An $1 | sed -e "s/ /x/g" | tr '\n' ' ' | sed -e "s/ //g")
+            echo "filename : matched offsets ( filesize )"
+            for fname in ${@:2}; do
+                local textsize=$(stat --format="%s" $fname)
+                if [ $textsize -ge $patternsize ]; then
+                    local textfile=$(mktemp text.tmp.XXXXXX)
+                    od -tx1 -An $fname | sed -e "s/ /x/g" | tr '\n' ' ' | sed -e "s/ //g" > $textfile
+                    local offsets=$(grep -ob $pattern $textfile | grep -o "^.*:" | sed 's/.$/\/3/' | bc)
+                    if [  -n "$offsets" ]; then
+                        echo $fname : $offsets
+                    fi
+                    rm $textfile
                 fi
-            fi
-        done
-        rm $textfile
+            done
+        fi
         echo "OK. Finished."
     fi
 }
