@@ -38,35 +38,12 @@ $ sudo dpkg -i ./mozc-data_*.deb ./mozc-server_*.deb ./mozc-utils-gui_*.deb ./ib
   # inet6 xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx/64 scope global ...
   $ hostname
   # enabled in DNS servers
+  ```
 
 - Confirm ssh directory
   ````
   $ mkdir -p ~/.ssh
   $ touch ~/.ssh/authorized_keys
-  ````
-
-- Create a user
-  ````bash
-  $ sudo useradd -m [username]
-  $ sudo passwd [username]
-  # enter new password
-  ````
-
-- Delete a user
-  ````bash
-  $ sudo userdel -r [username]
-  # be careful !!! (Do not remove root user)
-  ````
-
-- Set a sudo password
-  ````bash
-  $ sudo -i
-  # passwd
-  ````
-
-- Make home folder invisible from other users
-  ````bash
-  $ chmod 700 /home/[my_username]
   ````
 
 ### SSH keys
@@ -150,8 +127,33 @@ $ echo $SHELL
 # /bin/bash
 ````
 
-### Create user
-- from sudo
+### User accounts
+
+- Create a user
+  ````bash
+  $ sudo useradd -m [username]
+  $ sudo passwd [username]
+  # enter new password
+  ````
+
+- Delete a user
+  ````bash
+  $ sudo userdel -r [username]
+  # be careful !!! (Do not remove root user)
+  ````
+
+- Set a sudo password
+  ````bash
+  $ sudo -i
+  # passwd
+  ````
+
+- Make home folder invisible from other users
+  ````bash
+  $ chmod 700 /home/[my_username]
+  ````
+
+- The whole sequence (sudo the following commands)
   ````
   #!/bin/bash
   useradd -m -s /bin/bash mdj982
@@ -215,3 +217,13 @@ $ sudo hwclock -D --systohc --localtime
   - (Any safe directory)
 
 - Reboot Windows and now you can connect to `<Windows IP address>:2222` without logging in windows.
+
+### Upgrade Ubuntu
+
+```bash
+$ sudo apt update
+$ sudo apt upgrade
+$ sudo apt dist-upgrade
+$ sudo apt install update-manager-core
+$ sudo do-release-upgrade -d
+```
