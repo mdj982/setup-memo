@@ -5,7 +5,8 @@
             "name": "CUDA C++: Launch",
             "type": "cuda-gdb",
             "request": "launch",
-            "program": "${workspaceFolder}/main"
+            "program": "${workspaceFolder}/main",
+	    "preLaunchTask": "CUDA Debug Build"
         }
     ]
 }

@@ -47,12 +47,12 @@ esac
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
     else
-	color_prompt=
+    color_prompt=
     fi
 fi
 
@@ -121,16 +121,26 @@ fi
 # Linux
 alias open=xdg-open
 
-# Win
+# WSL, Win10
 function open() {
 if [ $# -ne 1 ]; then
-	echo "Usage: open [file_name]"
+    echo "Usage: open [file_name]"
 else
     cmd.exe /C start $1
 fi
 }
 
-# Win
+# WSL2, Win11
+function open() {
+if [ $# -ne 1 ]; then
+    echo "Usage: open [file_name]"
+else
+    abs_fname=$(wslpath -w $(readlink -f $1))
+    cmd.exe /C start $abs_fname
+fi
+}
+
+# WSL
 function nautilus() {
 if [ $# -ge 2 ]; then
     echo "Usage: nautilus [directory_name]"
@@ -145,82 +155,93 @@ else
 fi
 }
 
+# WSL
+function append_winpath_in_lowest_priority() {
+    local sbuf=$(cd /mnt/c && /mnt/c/Windows/system32/cmd.exe /c echo %path% | sed -e 's/\r//g' | awk 'BEGIN {FS=";"} { for (i = 1; i <= NF; i++) { printf("\"%s \" ", $i); } }')
+    local sresult=$(eval 'for word in '$sbuf'; do wslpath -u "$word" | xargs; done' | tr '\n' ':')
+    if [ ${sresult: -1} = ":" ]; then
+        sresult=${sresult/%?/}
+    fi
+    PATH="$PATH:$sresult"
+}
+# run the following command in order to disable automatic include of WINPATH
+# ````
+# sudo bash -c "echo -e '[interop]\nappendWindowsPath = false' >> /etc/wsl.conf"
+# ````
+# run and unset the function by remove comment out of the following command
+# ````
+# append_winpath_in_lowest_priority
+# unset append_winpath_in_lowest_priority
+# ````
+
 # for dualboot
-alias mnt="sudo bash ~/myshell/mnt.sh"
+# alias mnt="sudo bash ~/myshell/mnt.sh"
 
 # for paper reading
 alias zref="~/myshell/zref"
+alias oneliner="~/myshell/oneliner"
 
 # include my shells
-## - content
-## - filename
-## - makecpp
-## - touchcpp
-## - sshgen
-## - nautback
-## - topps
-## - substall
-## - whitefmt
-## - extractline
-## - extractcol[csvfmt/tsvfmt]
-## - convertpdf2png[trim]
-## - convertpng2jpg
-
 function myshell() {
-    echo -e " content \n filename \n makecpp \n touchcpp \n sshgen \n nautback \n topps \n substall \n whitefmt \n extractline \n extractcol[csvfmt/tsvfmt] \n convertpdf2png[trim]"
+    echo -n -e "\
+    content\tfilename\tmakecpp\ttouchcpp\n\
+    sshgen\tnautback\ttopps\tsubstall\n\
+    whitefmt\textractline\textractcol[csvfmt/tsvfmt]\tconvertpdf2png[trim]\n\
+    dockermnt\tshowlargefile\tbinmatch\tpsall\n\
+    " | column -t
 }
 
 ##
 function content() {
 if [ $# -ne 1 ]; then
-	echo "Usage: content [content]"
-	echo "cf.    grep \"[content]\" -rl ./"
+    echo "Usage: content [content]"
+    echo "cf.    grep \"[content]\" -rl ./"
 else
-	grep "$1" -rl ./
+    grep "$1" -rl ./
 fi
 }
 
 ##
 function filename() {
 if [ $# -ne 1 ]; then
-	echo "Usage: filename [partial_filename]"
-	echo "cf.    find ./ -maxdepth [depth] -type f -name \"*[partial_filename]*\""
+    echo "Usage: filename [partial_filename]"
+    echo "cf.    find ./ -maxdepth [depth] -type f -name \"*[partial_filename]*\""
 else
-	find ./ -type f -name "*$1*"
+    find ./ -type f -name "*$1*"
 fi
 }
 
 ##
 function makecpp() {
 if [ $# -ne 1 ]; then
-	echo "Usage: makecpp [filename_without_extension]"
-	echo "cf.    g++ -std=c++1z -O3 -Wall -fopenmp -o test test.cpp"
+    echo "Usage: makecpp [filename_without_extension]"
+    echo "cf.    g++ -std=c++1z -O3 -Wall -fopenmp -o test test.cpp"
 else
-	g++ -std=c++1z -O3 -Wall -fopenmp -o $1 $1.cpp
+    g++ -std=c++1z -O3 -Wall -fopenmp -o $1 $1.cpp
 fi
 }
 
 ##
 function touchcpp() {
 if [ $# -ne 1 ]; then
-	echo "Usage: touchcpp [filename_without_extension]"
+    echo "Usage: touchcpp [filename_without_extension]"
 elif [ -e $1.hpp ]; then
     echo "Error: "$1".hpp exists."
 elif [ -e $1.cpp ]; then
     echo "Error: "$1".cpp exists."
 else
-	touch $1".hpp"
-	if [ $? -eq 1 ]; then
-		return 1
-	fi
-	touch $1".cpp"
-	if [ $? -eq 1 ]; then
-    	return 1
-	fi
-	local basename=${1##*/}
-	local UPPERNAME=${basename^^}
-	echo -e "#ifndef "${UPPERNAME//-/_}_HPP"\n""#define "${UPPERNAME//-/_}_HPP"\n\n""#endif // "${UPPERNAME//-/_}_HPP >> $1".hpp"
-	echo -e "#include \""${basename}".hpp\"" >> $1".cpp"
+    touch $1".hpp"
+    if [ $? -eq 1 ]; then
+        return 1
+    fi
+    touch $1".cpp"
+    if [ $? -eq 1 ]; then
+        return 1
+    fi
+    local basename=${1##*/}
+    local UPPERNAME=${basename^^}
+    echo -e "#ifndef "${UPPERNAME//-/_}_HPP"\n""#define "${UPPERNAME//-/_}_HPP"\n\n""#endif // "${UPPERNAME//-/_}_HPP >> $1".hpp"
+    echo -e "#include \""${basename}".hpp\"" >> $1".cpp"
 fi
 }
 
@@ -228,9 +249,9 @@ fi
 function sshgen() {
 if [ $# -ne 1 ]; then
     echo "Usage: sshgen [filename_without_extension]"
-    echo "cf.    ssh-keygen -t rsa -b 4096 -f [filename_without_extension].pub "
+    echo "cf.    ssh-keygen -t ed25519 -f [filename_without_extension].pub "
 else
-    ssh-keygen -t rsa -b 4096 -f $1
+    ssh-keygen -t ed25519 -f $1
     mv $1 $1.pem
 fi
 }
@@ -248,11 +269,11 @@ fi
 ##
 function topps() {
 if [ $# -ne 1 ]; then
-	echo "Usage: topps [process_name]"
+    echo "Usage: topps [process_name]"
 else
-	local pids=`pgrep $1`
-	pids=`echo ${pids} | awk '{ gsub(" ", ","); print }'`
-	top -p ${pids}
+    local pids=`pgrep $1`
+    pids=`echo ${pids} | awk '{ gsub(" ", ","); print }'`
+    top -p ${pids}
 fi
 }
 
@@ -298,7 +319,7 @@ if [ $# -eq 0 ]; then
     echo "cf.    convert -verbose -density 300 -trim [fheader].pdf -quality 100 -flatten -sharpen 0x1.0 [fheader].png"
 else
     for fname in $@; do
-        fheader=`dirname ${fname}`/`basename ${fname} .pdf`
+        local fheader=`dirname ${fname}`/`basename ${fname} .pdf`
         convert -verbose -density 300 -trim ${fheader}.pdf -quality 100 -flatten -sharpen 0x1.0 ${fheader}.png
     done
 fi
@@ -311,7 +332,7 @@ if [ $# -eq 0 ]; then
     echo "cf.    convert -verbose -density 300 -trim [fheader].pdf -quality 100 -flatten -sharpen 0x1.0 [fheader].png"
 else
     for fname in $@; do
-        fheader=`dirname ${fname}`/`basename ${fname} .pdf`
+        local fheader=`dirname ${fname}`/`basename ${fname} .pdf`
         convert -verbose -density 300 -trim ${fheader}.pdf -quality 100 -flatten -sharpen 0x1.0 ${fheader}.png
         convert -trim ${fheader}.png ${fheader}.png
     done
@@ -325,7 +346,7 @@ if [ $# -eq 0 ]; then
     echo "cf.    convert [fheader].png [fheader].jpg"
 else
     for fname in $@; do
-        fheader=`dirname ${fname}`/`basename ${fname} .png`
+        local fheader=`dirname ${fname}`/`basename ${fname} .png`
         convert ${fheader}.png ${fheader}.jpg
     done
 fi
@@ -374,4 +395,55 @@ function extractcoltsvfmt() {
         printf -v columns '%s\t' "$@"
         awk -v buf="${columns::-1}" 'BEGIN {n=split(buf, cols, "\t"); p = 1} {printf $cols[p]; p = p % n + 1; if (p == 1) printf "\n"; else printf "\t";}'
     fi
+}
+
+##
+function dockermnt() {
+        if [ $# -ne 1 ]; then
+        echo "Usage: dockermnt [docker image name]"
+        echo "cf.    docker run --gpus all -it -v `pwd`:/`basename \`pwd\`` -w /`basename \`pwd\`` [docker image name]"
+        else
+        docker run --gpus all -it -v `pwd`:/`basename \`pwd\`` -w /`basename \`pwd\`` $1
+        fi
+}
+
+##
+function showlargefile() {
+        if [ $# -ne 1 ]; then
+                echo "Usage: showlargefile <depth>"
+                echo "cf.    du --max-depth=<depth> -ah ./ | sort -rh | head -n 10"
+        else
+                du --max-depth=$1 -ah ./ | sort -rh | head -n 10
+        fi
+}
+
+##
+function binmatch() {
+    if [ $# -lt 2 ]; then
+        echo "Usage: binmatch <pattern-file> <text-file>"
+    else
+        local patternsize=$(stat --format="%s" $1)
+        if [ $patternsize -le 43690 ]; then
+            local pattern=$(od -tx1 -An $1 | sed -e "s/ /x/g" | tr '\n' ' ' | sed -e "s/ //g")
+            echo "filename : matched offsets ( filesize )"
+            for fname in ${@:2}; do
+                local textsize=$(stat --format="%s" $fname)
+                if [ $textsize -ge $patternsize ]; then
+                    local textfile=$(mktemp text.tmp.XXXXXX)
+                    od -tx1 -An $fname | sed -e "s/ /x/g" | tr '\n' ' ' | sed -e "s/ //g" > $textfile
+                    local offsets=$(grep -ob $pattern $textfile | grep -o "^.*:" | sed 's/.$/\/3/' | bc)
+                    if [  -n "$offsets" ]; then
+                        echo $fname : $offsets
+                    fi
+                    rm $textfile
+                fi
+            done
+        fi
+        echo "OK. Finished."
+    fi
+}
+
+##
+function psall() {
+    ps -A -o user,uid,group,gid,pid,ppid,opri,ni,cls,start_time,time,tty,%cpu,%mem,comm
 }
