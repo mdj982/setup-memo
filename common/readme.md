@@ -1,9 +1,28 @@
-## Utility Settings
+# Utility Settings <!-- omit in toc -->
 
-### Mozc
+- [Mozc](#mozc)
+  - [Install Mozc (Ubuntu 18.04 LTS)](#install-mozc-ubuntu-1804-lts)
+  - [GNOME GUI Settings (Ubuntu 20.04 LTS)](#gnome-gui-settings-ubuntu-2004-lts)
+  - [Trouble Shootings](#trouble-shootings)
+- [SSH settings](#ssh-settings)
+  - [Server side](#server-side)
+  - [SSH keys](#ssh-keys)
+  - [Scripts](#scripts)
+- [Device blacklist](#device-blacklist)
+- [C++, update-alternative](#c-update-alternative)
+- [Switch shell to bash](#switch-shell-to-bash)
+- [User accounts](#user-accounts)
+- [About time (hardware clock vs system clock)](#about-time-hardware-clock-vs-system-clock)
+- [About network card](#about-network-card)
+- [SSH Connection to WSL2](#ssh-connection-to-wsl2)
+  - [On WSL2](#on-wsl2)
+  - [On Windows](#on-windows)
+- [Upgrade Ubuntu](#upgrade-ubuntu)
+
+## Mozc
 - Mozc currently works well in default Ubuntu 20.04 LTS.
 
-#### Install Mozc (Ubuntu 18.04 LTS)
+### Install Mozc (Ubuntu 18.04 LTS)
 ```bash
 $ tar -xf mozc-2.23.2815.102+dfsg~ut2-20171008d+20200227.tar.xz
 $ cd mozc-2.23.2815.102+dfsg~ut2-20171008d+20200227/
@@ -13,14 +32,16 @@ $ sudo ./build_mozc_plus_utdict
 $ sudo dpkg -i ./mozc-data_*.deb ./mozc-server_*.deb ./mozc-utils-gui_*.deb ./ibus-mozc_*.deb
 ```
 
-#### GNOME GUI Settings (Ubuntu 20.04 LTS)
+### GNOME GUI Settings (Ubuntu 20.04 LTS)
 (Ctrl-s) Region & Language -> Confirm Ibus -> Add Japanese (Mozc) etc.
 
-#### Trouble Shootings
+### Trouble Shootings
 - Key assignments will be reset to US keys whenever rebooted. =>
   It Seems to be an internal bug. Adding the built-in Japanese (Roman only) at the top of the language list might work.
 
-### SSH settings (Server)
+## SSH settings
+
+### Server side
 
 - Install openssh-server
   ```bash
@@ -43,7 +64,9 @@ $ sudo dpkg -i ./mozc-data_*.deb ./mozc-server_*.deb ./mozc-utils-gui_*.deb ./ib
 - Confirm ssh directory
   ```
   $ mkdir -p ~/.ssh
+  $ chmod 700 ~/.ssh
   $ touch ~/.ssh/authorized_keys
+  $ chmod 600 ~/.ssh/authorized_keys
   ```
 
 ### SSH keys
@@ -72,35 +95,48 @@ Host github.com
 Generate key:
 ```bash
 $ mkdir -p ~/.ssh/keys
-$ ssh-keygen -t rsa -b 4096 -f ~/.ssh/keys/[filename_without_extension].pub
+$ ssh-keygen -t ed25519 -f ~/.ssh/keys/[filename_without_extension].pub
 $ chmod 600 ~/.ssh/keys/[filename_without_extension].pem
 $ cat ~/.ssh/keys/[filename_without_extension].pub | ssh [short name] "cat >> ~/.ssh/authorized_keys"
 ```
 
-### Device format
+### Scripts
 
-To confirm
+- Client side
 
-```bash
-$ lsblk
-$ sudo parted /dev/sda --script print
-```
+  ```bash
+  NAME=name_foo # or github.com etc.
+  HOST_NAME=192.168.xxx.xxx # #{NAME} by default
+  USER_NAME=mdj982
+  KEY_NAME=key_foo
 
-Initialize
+  mkdir -p ~/.ssh && chmod 700 ~/.ssh
+  mkdir -p ~/.ssh/keys && chmod 700 ~/.ssh/keys
+  touch ~/.ssh/config && chmod 600 ~/.ssh/config
+  ssh-keygen -t ed -b 4096 -f ~/.ssh/keys/${KEY_NAME}
+  mv ~/.ssh/keys/${KEY_NAME} ~/.ssh/keys/${KEY_NAME}.pem
+  echo "Host ${NAME}" >> ~/.ssh/config
+  echo "    HostName ${HOST_NAME}" >> ~/.ssh/config
+  echo "    User ${USER_NAME}" >> ~/.ssh/config
+  echo "    # Port 22" >> ~/.ssh/config
+  echo "    IdentityFile ~/.ssh/keys/${KEY_NAME}.pem" >> ~/.ssh/config
+  echo "    ServerAliveInterval 60" >> ~/.ssh/config
+  cat ~/.ssh/keys/${KEY_NAME}.pub # PUBKEY
+  ```
 
-```bash
-$ sudo dd if=/dev/zero of=/dev/sda bs=4096 status=progress
-```
 
-Format
+- Server side
 
-```bash
-$ sudo parted /dev/sda --script -- mklabel gpt
-$ sudo parted /dev/sda --script -- mkpart primary ext4 0% 100%
-$ sudo mkfs.ext4 -F /dev/sda1
-```
+  ```bash
+  PUBKEY=""
+  mkdir -p ~/.ssh && chmod 700 ~/.ssh
+  mkdir -p ~/.ssh/keys && chmod 700 ~/.ssh/keys
+  touch ~/.ssh/config && chmod 600 ~/.ssh/config
+  touch ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys
+  echo ${PUBKEY} >> ~/.ssh/authorized_keys
+  ```
 
-### Device blacklist
+## Device blacklist
 Location:
 /etc/modproble.d/blacklist.conf
 
@@ -108,7 +144,7 @@ Hint:
 blacklist uas
 blacklist usb_storage
 
-### C++, update-alternative
+## C++, update-alternative
 ```bash
 $ sudo apt install -y gcc-10 g++-10
 $ gcc-10 --version
@@ -117,7 +153,7 @@ $ sudo update-alternatives --install /usr/bin/gcc gcc `which gcc-10` 1020 # vers
 $ sudo update-alternatives --install /usr/bin/g++ g++ `which g++-10` 1020 # version to int
 ```
 
-### Switch shell to bash
+## Switch shell to bash
 ```bash
 $ echo $SHELL
 # /bin/sh
@@ -127,7 +163,7 @@ $ echo $SHELL
 # /bin/bash
 ```
 
-### User accounts
+## User accounts
 
 - Create a user
   ```bash
@@ -166,17 +202,17 @@ $ echo $SHELL
   chmod 600 /home/mdj982/.ssh/authorized_keys
   ```
 
-### About time (hardware clock vs system clock)
+## About time (hardware clock vs system clock)
 ```bash
 $ sudo hwclock -D --systohc --localtime
 ```
 
-### About network card
+## About network card
 - Disable: Windows -> "Device Manager" -> "Network Adapter" -> "Power Management" -> "Wake on Magic Packet from power off state"
 
-### SSH Connection to WSL2
+## SSH Connection to WSL2
 
-#### On WSL2
+### On WSL2
 
 - `sudo vim /etc/sudoers.d/sudo_service_without_passwd`
   ```
@@ -184,7 +220,7 @@ $ sudo hwclock -D --systohc --localtime
   ```
   - This setting allows `sudo /usr/sbin/service ssh restart` to run without password for the specific user
 
-#### On Windows
+### On Windows
 
 - Prepare a *.ps1 script as follows
   ```ps1
@@ -218,7 +254,7 @@ $ sudo hwclock -D --systohc --localtime
 
 - Reboot Windows and now you can connect to `<Windows IP address>:2222` without logging in windows.
 
-### Upgrade Ubuntu
+## Upgrade Ubuntu
 
 ```bash
 $ sudo apt update
