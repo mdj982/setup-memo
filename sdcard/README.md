@@ -49,6 +49,7 @@
 ## Adjust to GPT
 
 - Use `parted` to let the SD card handle GPT (GUID Partition Table)
+  - **Note that this command will destroy the GPT if exists.**
 
   ```bash
   $ sudo parted ${SD_CARD} --script -- mklabel gpt
@@ -155,8 +156,8 @@
 
   ```bash
   SD_CARD=/dev/sdX # Modify here carefully
-  sudo parted ${SD_CARD} --script -- mklabel gpt
   sudo sgdisk -p ${SD_CARD}
+  # sudo parted ${SD_CARD} --script -- mklabel gpt
   ```
 
   ```bash
