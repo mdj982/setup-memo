@@ -224,7 +224,7 @@ $ echo $SHELL
 
 ## Fix IP address
 
-- netplan: `/etc/netplan/99-anyname.yaml`
+- Ubuntu Server => netplan: `/etc/netplan/99-anyname.yaml`
 
   - ethernet
     ```
@@ -256,6 +256,19 @@ $ echo $SHELL
                     foo: # ssid
                         password: bar # password
     ```
+
+- Ubuntu Desktop: `/etc/NetworkManager/system-connections/*`
+- systemd-networkd: `/etc/systemd/network/20-wired.network`
+  ```
+  [Match]
+  Name=eth0
+
+  [Network]
+  Address=192.168.xxx.xxx/24
+  Gateway=192.168.xxx.xxx
+  DNS=xxx.xxx.xxx.xxx
+  #DNS=xxx.xxx.xxx.xxx
+  ```
 
 ## About time (hardware clock vs system clock)
 ```bash
