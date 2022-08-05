@@ -12,6 +12,7 @@
 - [C++, update-alternative](#c-update-alternative)
 - [Switch shell to bash](#switch-shell-to-bash)
 - [User accounts](#user-accounts)
+- [Fix IP address](#fix-ip-address)
 - [About time (hardware clock vs system clock)](#about-time-hardware-clock-vs-system-clock)
 - [About network card](#about-network-card)
 - [SSH Connection to WSL2](#ssh-connection-to-wsl2)
@@ -167,12 +168,12 @@ $ echo $SHELL
 
 - Create a user
   ```bash
-  $ sudo useradd -m [username]
+  $ sudo useradd -m -s /bin/bash [username]
   $ sudo passwd [username]
   # enter new password
   ```
 
-- Delete a user
+- Delete a user (with home directory)
   ```bash
   $ sudo userdel -r [username]
   # be careful !!! (Do not remove root user)
@@ -186,21 +187,75 @@ $ echo $SHELL
 
 - Make home folder invisible from other users
   ```bash
-  $ chmod 700 /home/[my_username]
+  $ chmod 700 /home/${USER}
+  ```
+
+- Add to group
+
+  ```bash
+  $ sudo gpasswd -a ${USER} sudo
+  $ sudo usermod -aG sudo ${USER}
+  ```
+
+- Confirm group
+  ```bash
+  $ sudo getent group | grep sudo
+  ```
+
+- Erase from group
+  ```bash
+  $ sudo gpasswd -d ${USER} sudo
   ```
 
 - The whole sequence (sudo the following commands)
-  ```
+  ```bash
   #!/bin/bash
-  useradd -m -s /bin/bash mdj982
-  echo "mdj982:tmppasswd" | chpasswd
-  gpasswd -a mdj982 sudo
-  mkdir /home/mdj982/.ssh
-  echo "ssh-rsa ..." > /home/mdj982/.ssh/authorized_keys
-  chown -R mdj982:mdj982 /home/mdj982/.ssh
-  chmod 700 /home/mdj982/.ssh
-  chmod 600 /home/mdj982/.ssh/authorized_keys
+  MY_NAME=mdj982
+  useradd -m -s /bin/bash ${MY_NAME}
+  echo "${MY_NAME}:tmppasswd" | chpasswd
+  gpasswd -a ${MY_NAME} sudo
+  mkdir /home/${MY_NAME}/.ssh
+  chmod 700 /home/${MY_NAME}/.ssh
+  touch /home/${MY_NAME}/.ssh/authorized_keys
+  chmod 600 /home/${MY_NAME}/.ssh/authorized_keys
+  chown -R ${MY_NAME}:${MY_NAME} /home/${MY_NAME}/.ssh
+  echo "ssh-rsa ..." > /home/${MY_NAME}/.ssh/authorized_keys
   ```
+
+## Fix IP address
+
+- netplan: `/etc/netplan/99-anyname.yaml`
+
+  - ethernet
+    ```
+    network:
+        version: 2
+        ethernets:
+            eth0: # adapter
+                dhcp4: false
+                dhcp6: false
+                addresses: [192.168.zzz.xxx/24] # fixed IP
+                gateway4: 192.168.zzz.1
+                nameservers:
+                    addresses: [192.168.zzz.1]
+    ```
+
+
+  - wireless
+    ```
+    network:
+        version: 2
+        wifis:
+            wlan0: # wireless adapter
+                dhcp4: false
+                addresses: [192.168.xxx.xxx/24] # fixed IP
+                gateway4: 192.168.xxx.1
+                nameservers:
+                    addresses: [192.168.xxx.1]
+                access-points:
+                    foo: # ssid
+                        password: bar # password
+    ```
 
 ## About time (hardware clock vs system clock)
 ```bash
