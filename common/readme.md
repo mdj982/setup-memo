@@ -15,6 +15,7 @@
 - [Fix IP address](#fix-ip-address)
 - [About time (hardware clock vs system clock)](#about-time-hardware-clock-vs-system-clock)
 - [About network card](#about-network-card)
+- [About disk extension](#about-disk-extension)
 - [SSH Connection to WSL2](#ssh-connection-to-wsl2)
   - [On WSL2](#on-wsl2)
   - [On Windows](#on-windows)
@@ -277,6 +278,19 @@ $ sudo hwclock -D --systohc --localtime
 
 ## About network card
 - Disable: Windows -> "Device Manager" -> "Network Adapter" -> "Power Management" -> "Wake on Magic Packet from power off state"
+
+## About disk extension
+- Check UUID of the partition
+
+    ```
+    $ sudo blkid /dev/sda1
+    ```
+
+- write into `/etc/fstab`. (Replace `<uuid>`)
+
+    ```
+    UUID=<uuid> /media/extssd0 ext4 users,suid,dev,exec,rw,auto,async 0 0
+    ```
 
 ## SSH Connection to WSL2
 
