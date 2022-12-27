@@ -188,6 +188,7 @@ function myshell() {
     sshgen\tnautback\ttopps\tsubstall\n\
     whitefmt\textractline\textractcol[csvfmt/tsvfmt]\tconvertpdf2png[trim]\n\
     dockermnt\tshowlargefile\tbinmatch\tpsall\n\
+    setunion\tsetdifference\tsetintersection\n\
     " | column -t
 }
 
@@ -446,4 +447,31 @@ function binmatch() {
 ##
 function psall() {
     ps -A -o user,uid,group,gid,pid,ppid,opri,ni,cls,start_time,time,tty,%cpu,%mem,comm
+}
+
+# union of sets
+function setunion() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: setunion \$\{array1\[\*\]\} \$\{array2\[\*\]\}"
+    else
+        printf '%s\n' $@ | sort | uniq
+    fi
+}
+
+# intersection of sets
+function setintersection() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: setintersection \$\{array1\[\*\]\} \$\{array2\[\*\]\}"
+    else
+        printf '%s\n' $@ | sort | uniq -d
+    fi
+}
+
+# difference (set 1 - set 2)
+function setdifference() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: setdifference \$\{array1\[\*\]\} \$\{array2\[\*\]\}"
+    else
+        (printf '%s\n' $@ | sort -u; printf '%s\n' ${2}) | sort | uniq -u
+    fi
 }
