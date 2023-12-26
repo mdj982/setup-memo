@@ -118,6 +118,22 @@ std::string insert_underscore(const std::string &str) {
     return ret;
 }
 
+std::string convert_to_initials(const std::string &str) {
+    std::string ret = "";
+    size_t p = 0;
+    while (p < str.size()) {
+        if (ret.size() >= 4) {
+            ret[3] = '+';
+            break;
+        }
+        ret.push_back(str[p]);
+        p = str.find("and ", p);
+        if (p == std::string::npos) break;
+        p += 4;
+    }
+    return ret;
+}
+
 int main(int argc, char *argv[]) {
     if (argc > 2) {
         std::cerr << "Error: Too many arguments." << std::endl;
@@ -135,9 +151,9 @@ int main(int argc, char *argv[]) {
     }
     ifs.close();
 
-    bibinfo_t bibinfo = get_bibinfo();
-    std::string next_fname = bibinfo.year + "_" + insert_underscore(bibinfo.title) + ".pdf";
-    std::string mvcmd = "mv '" + prev_fname + "' " + next_fname;
+    const bibinfo_t bibinfo = get_bibinfo();
+    const std::string next_fname = convert_to_initials(bibinfo.author) + bibinfo.year + "_" + insert_underscore(bibinfo.title) + ".pdf";
+    const std::string mvcmd = "mv '" + prev_fname + "' " + next_fname;
 
     std::ofstream ofs; ofs.open("zref.bib", std::ios_base::app);
     if (!ofs.is_open()) {
