@@ -121,22 +121,15 @@ fi
 # Linux
 alias open=xdg-open
 
-# WSL, Win10
+# WSL
 function open() {
-if [ $# -ne 1 ]; then
+if [ $# -eq 0 ]; then
     echo "Usage: open [file_name]"
 else
-    cmd.exe /C start $1
-fi
-}
-
-# WSL2, Win11
-function open() {
-if [ $# -ne 1 ]; then
-    echo "Usage: open [file_name]"
-else
-    abs_fname=$(wslpath -w $(readlink -f $1))
-    cmd.exe /C start $abs_fname
+    for filename in "${@}"; do
+        abs_fname=$(wslpath -w $(readlink -f ${filename}))
+        cmd.exe /C start ${abs_fname}
+    done
 fi
 }
 
@@ -187,7 +180,7 @@ function myshell() {
     content\tfilename\tmakecpp\ttouchcpp\n\
     sshgen\tnautback\ttopps\tsubstall\n\
     whitefmt\textractline\textractcol[csvfmt/tsvfmt]\tconvertpdf2png[trim]\n\
-    dockermnt\tshowlargefile\tbinmatch\tpsall\n\
+    dockermnt\tshowlargefile\tpsall\n\
     setunion\tsetdifference\tsetintersection\n\
     " | column -t
 }
@@ -419,32 +412,6 @@ function showlargefile() {
 }
 
 ##
-function binmatch() {
-    if [ $# -lt 2 ]; then
-        echo "Usage: binmatch <pattern-file> <text-file>"
-    else
-        local patternsize=$(stat --format="%s" $1)
-        if [ $patternsize -le 43690 ]; then
-            local pattern=$(od -tx1 -An $1 | sed -e "s/ /x/g" | tr '\n' ' ' | sed -e "s/ //g")
-            echo "filename : matched offsets ( filesize )"
-            for fname in ${@:2}; do
-                local textsize=$(stat --format="%s" $fname)
-                if [ $textsize -ge $patternsize ]; then
-                    local textfile=$(mktemp text.tmp.XXXXXX)
-                    od -tx1 -An $fname | sed -e "s/ /x/g" | tr '\n' ' ' | sed -e "s/ //g" > $textfile
-                    local offsets=$(grep -ob $pattern $textfile | grep -o "^.*:" | sed 's/.$/\/3/' | bc)
-                    if [  -n "$offsets" ]; then
-                        echo $fname : $offsets
-                    fi
-                    rm $textfile
-                fi
-            done
-        fi
-        echo "OK. Finished."
-    fi
-}
-
-##
 function psall() {
     ps -A -o user,uid,group,gid,pid,ppid,opri,ni,cls,start_time,time,tty,%cpu,%mem,comm
 }
@@ -452,26 +419,37 @@ function psall() {
 # union of sets
 function setunion() {
     if [ $# -eq 0 ]; then
-        echo "Usage: setunion \$\{array1\[\*\]\} \$\{array2\[\*\]\}"
+        echo "Usage: setunion arr_name0 arr_name1"
     else
-        printf '%s\n' $@ | sort | uniq
+        VARSTR_ARR0="$1[@]"
+        ARR0=(${!VARSTR_ARR0})
+        VARSTR_ARR1="$2[@]"
+        ARR1=(${!VARSTR_ARR1})
+        (for i in ${ARR0[@]}; do echo $i; done; for i in ${ARR1[@]}; do echo $i; done) | sort | uniq
     fi
 }
 
 # intersection of sets
 function setintersection() {
     if [ $# -eq 0 ]; then
-        echo "Usage: setintersection \$\{array1\[\*\]\} \$\{array2\[\*\]\}"
+        echo "Usage: setintersection arr_name0 arr_name1"
     else
-        printf '%s\n' $@ | sort | uniq -d
+        VARSTR_ARR0="$1[@]"
+        ARR0=(${!VARSTR_ARR0})
+        VARSTR_ARR1="$2[@]"
+        ARR1=(${!VARSTR_ARR1})
+        (for i in ${ARR0[@]}; do echo $i; done; for i in ${ARR1[@]}; do echo $i; done) | sort | uniq -d
     fi
 }
 
 # difference (set 1 - set 2)
 function setdifference() {
     if [ $# -eq 0 ]; then
-        echo "Usage: setdifference \$\{array1\[\*\]\} \$\{array2\[\*\]\}"
+        echo "Usage: setdifference arr_name0 arr_name1"
     else
-        (printf '%s\n' $@ | sort -u; printf '%s\n' ${2}) | sort | uniq -u
+        VARSTR_ARR0="$1[@]"
+        ARR0=(${!VARSTR_ARR0})
+        ARR_INTERSECTION=$(setintersection $1 $2)
+        (for i in ${ARR0[@]}; do echo $i; done; for i in ${ARR_INTERSECTION[@]}; do echo $i; done) | sort | uniq -u
     fi
 }
