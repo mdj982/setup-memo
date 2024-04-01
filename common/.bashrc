@@ -209,9 +209,9 @@ fi
 function makecpp() {
 if [ $# -ne 1 ]; then
     echo "Usage: makecpp [filename_without_extension]"
-    echo "cf.    g++ -std=c++1z -O3 -Wall -fopenmp -o test test.cpp"
+    echo "cf.    g++ -std=c++23 -O3 -Wall -fopenmp -o test test.cpp"
 else
-    g++ -std=c++1z -O3 -Wall -fopenmp -o $1 $1.cpp
+    g++ -std=c++23 -O3 -Wall -fopenmp -o $1 $1.cpp
 fi
 }
 
