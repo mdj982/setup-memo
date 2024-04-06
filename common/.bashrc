@@ -427,7 +427,7 @@ function gitdate() {
         stash_status=$(git stash save | tee /dev/tty)
         git commit --amend --no-edit --date ${year}-${month}-${day}T${hour}:${minute}:${second}+09:00 && \
         git rebase HEAD~ --committer-date-is-author-date && \
-        if [ "${result}" == "No local changes to save" ]; then
+        if [ "${stash_status}" == "No local changes to save" ]; then
             :
         else
             git stash pop
