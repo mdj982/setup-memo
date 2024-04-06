@@ -180,7 +180,7 @@ function myshell() {
     content\tfilename\tmakecpp\ttouchcpp\n\
     sshgen\tnautback\ttopps\tsubstall\n\
     whitefmt\textractline\textractcol[csvfmt/tsvfmt]\tconvertpdf2png[trim]\n\
-    dockermnt\tshowlargefile\tpsall\n\
+    dockermnt\tshowlargefile\tgitdate\tpsall\n\
     setunion\tsetdifference\tsetintersection\n\
     " | column -t
 }
@@ -409,6 +409,30 @@ function showlargefile() {
         else
                 du --max-depth=$1 -ah ./ | sort -rh | head -n 10
         fi
+}
+
+##
+function gitdate() {
+    if [ $# -ne 1 ]; then
+        echo "Usage: gitdate YYYY-MM-DD-hh-mm-ss"
+        echo "cf. git commit --amend --no-edit --date YYYY-MM-DDThh:mm:ss+09:00"
+        echo "    git rebase HEAD~ --committer-date-is-author-date"
+    else
+        year=$(echo $1 | cut -d '-' -f 1)
+        month=$(echo $1 | cut -d '-' -f 2)
+        day=$(echo $1 | cut -d '-' -f 3)
+        hour=$(echo $1 | cut -d '-' -f 4)
+        minute=$(echo $1 | cut -d '-' -f 5)
+        second=$(echo $1 | cut -d '-' -f 6)
+        stash_status=$(git stash save | tee /dev/tty)
+        git commit --amend --no-edit --date ${year}-${month}-${day}T${hour}:${minute}:${second}+09:00 && \
+        git rebase HEAD~ --committer-date-is-author-date && \
+        if [ "${result}" == "No local changes to save" ]; then
+            :
+        else
+            git stash pop
+        fi
+    fi
 }
 
 ##
