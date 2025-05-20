@@ -187,7 +187,7 @@ function myshell() {
     content\tfilename\tmakecpp\ttouchcpp\n\
     sshgen\tnautback\ttopps\tsubstall\n\
     whitefmt\textractline\textractcol[csvfmt/tsvfmt]\tconvertpdf2png[trim]\n\
-    dockermnt\tshowlargefile\tbinmatch\tpsall\n\
+    dockertmp\tshowlargefile\tbinmatch\tpsall\n\
     " | column -t
 }
 
@@ -398,14 +398,28 @@ function extractcoltsvfmt() {
 }
 
 ##
-function dockermnt() {
-        if [ $# -ne 1 ]; then
-        echo "Usage: dockermnt [docker image name]"
-        echo "cf.    docker run --gpus all -it -v `pwd`:/`basename \`pwd\`` -w /`basename \`pwd\`` [docker image name]"
-        else
-        docker run --gpus all -it -v `pwd`:/`basename \`pwd\`` -w /`basename \`pwd\`` $1
-        fi
+function dockertmp() {
+    docker run \
+        --gpus all \
+        -it --rm \
+        -u $(id -u):$(id -g) \
+        -v "$(pwd)":/work -v /etc/passwd:/etc/passwd:ro -v /etc/group:/etc/group:ro -v /etc/shadow:/etc/shadow:ro \
+        "$@"
 }
+
+__dockertmp_completions() {
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    local prev_index=$((COMP_CWORD - 1))
+
+    if [[ $COMP_CWORD -eq 1 ]]; then
+        COMPREPLY=($(compgen -W "$(docker images --format '{{.Repository}}:{{.Tag}}')" -- "$cur"))
+    else
+        COMPREPLY=()
+        compopt -o default
+    fi
+}
+
+complete -F __dockertmp_completions dockertmp
 
 ##
 function showlargefile() {
