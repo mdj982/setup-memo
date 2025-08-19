@@ -180,7 +180,7 @@ function myshell() {
     content\tfilename\tmakecpp\ttouchcpp\n\
     sshgen\tnautback\ttopps\tsubstall\n\
     whitefmt\textractline\textractcol[csvfmt/tsvfmt]\tconvertpdf2png[trim]\n\
-    dockertmp\tshowlargefile\tgitdate\tpsall\n\
+    dockertmp\tdockertmprt\tshowlargefile\tgitdate\tpsall\n\
     setunion\tsetdifference\tsetintersection\n\
     " | column -t
 }
@@ -391,17 +391,29 @@ function extractcoltsvfmt() {
     fi
 }
 
-##
+##              
 function dockertmp() {
     docker run \
         --gpus all \
         -it --rm \
         -u $(id -u):$(id -g) \
-        -v "$(pwd)":/work -v /etc/passwd:/etc/passwd:ro -v /etc/group:/etc/group:ro -v /etc/shadow:/etc/shadow:ro \
+        -v "$(pwd)":/work \
+        -v /etc/passwd:/etc/passwd:ro -v /etc/group:/etc/group:ro -v /etc/shadow:/etc/shadow:ro \
+        -v ${HOME}/.bash_history:${HOME}/.bash_history -v ${HOME}/.bashrc:${HOME}/.bashrc \
+        -v ${HOME}/.inputrc:${HOME}/.inputrc \
         "$@"
-}
-
-__dockertmp_completions() {
+}   
+        
+##      
+function dockertmprt() {
+    docker run \
+        --gpus all \
+        -it --rm \
+        -v "$(pwd)":/work \
+        "$@"        
+}       
+                    
+__docker_completions() {  
     local cur="${COMP_WORDS[COMP_CWORD]}"
     local prev_index=$((COMP_CWORD - 1))
 
@@ -413,7 +425,8 @@ __dockertmp_completions() {
     fi
 }
 
-complete -F __dockertmp_completions dockertmp
+complete -F __docker_completions dockertmp
+complete -F __docker_completions dockertmprt
 
 ##
 function showlargefile() {
