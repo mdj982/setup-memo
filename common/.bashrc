@@ -181,7 +181,7 @@ function myshell() {
     sshgen\tnautback\ttopps\tsubstall\n\
     whitefmt\textractline\textractcol[csvfmt/tsvfmt]\tconvertpdf2png[trim]\n\
     dockertmp\tdockertmprt\tshowlargefile\tgitdate\tpsall\n\
-    setunion\tsetdifference\tsetintersection\n\
+    setunion\tsetdifference\tsetintersection\tcalcstat\n\
     " | column -t
 }
 
@@ -502,5 +502,33 @@ function setdifference() {
         ARR0=(${!VARSTR_ARR0})
         ARR_INTERSECTION=$(setintersection $1 $2)
         (for i in ${ARR0[@]}; do echo $i; done; for i in ${ARR_INTERSECTION[@]}; do echo $i; done) | sort | uniq -u
+    fi
+}
+
+##
+function calcstat() {
+    numbers=()
+    while read -r num; do
+        numbers+=($num)
+    done
+    n=${#numbers[@]}
+    if [ ${n} -eq 0 ]; then
+        echo "Usage: echo a[0] ... a[n - 1] | calcstat"
+    else
+        ## mean
+        mean=$(awk '{sum=0; for(i=1;i<=NF;i++) sum+=$i; print sum/NF}' <<< "${numbers[@]}")
+        ## median
+        sorted_numbers=($(printf "%s\n" "${numbers[@]}" | sort -n))
+        if (( n % 2 == 0 )); then
+            median=$(awk -v m1="${sorted_numbers[$((n/2-1))]}" -v m2="${sorted_numbers[$((n/2))]}" 'BEGIN {print (m1 + m2) / 2}')
+        else
+            median="${sorted_numbers[$((n/2))]}"
+        fi
+        ## stddev
+        stddev=$(awk -v mean="$mean" '{sum=0; for(i=1;i<=NF;i++) sum+=($i-mean)^2; print sqrt(sum/NF)}' <<< "${numbers[@]}")
+        ## output
+        echo "mean = $mean"
+        echo "median = $median"
+        echo "stddev = $stddev"
     fi
 }
