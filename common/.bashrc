@@ -397,10 +397,11 @@ function dockertmp() {
         --gpus all \
         -it --rm \
         -u $(id -u):$(id -g) \
-        -v "$(pwd)":/work \
         -v /etc/passwd:/etc/passwd:ro -v /etc/group:/etc/group:ro -v /etc/shadow:/etc/shadow:ro \
         -v ${HOME}/.bash_history:${HOME}/.bash_history -v ${HOME}/.bashrc:${HOME}/.bashrc \
         -v ${HOME}/.inputrc:${HOME}/.inputrc \
+        -v "$(pwd)":"$(pwd)" \
+        -w "$(pwd)" \
         "$@"
 }   
         
