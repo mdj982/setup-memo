@@ -43,6 +43,14 @@ $ sudo vim /etc/xrdp/sesman.ini
 $ sudo vim /etc/xrdp/startwm.sh
 ```
 ```diff
-export GNOME_SHELL_SESSION_MODE=ubuntu
-export XDG_CURRENT_DESKTOP=ubuntu:GNOME
+# Rely on /etc/pam.d/xrdp-sesman using pam_env to load both
+# /etc/environment and /etc/default/locale to initialise the
+# locale and the user environment properly.
+
++ export GNOME_SHELL_SESSION_MODE=ubuntu
++ export XDG_CURRENT_DESKTOP=ubuntu:GNOME
+
+if test -r /etc/profile; then
+        . /etc/profile
+fi
 ```
