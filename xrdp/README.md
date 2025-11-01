@@ -2,9 +2,9 @@
 
 ## Install
 
-````bash
+```bash
 $ sudo apt install -y xserver-xorg-input-all xserver-xorg-core xorgxrdp xrdp
-````
+```
 
 ## Config
 
@@ -12,7 +12,7 @@ $ sudo apt install -y xserver-xorg-input-all xserver-xorg-core xorgxrdp xrdp
 
 - https://www.cagylogic.com/archives/2021/03/23145121/11743.php
 
-````
+```bash
 $ sudo vim /etc/polkit-1/localauthority/50-local.d/45-allow-colord.pkla
 [Allow Colord all Users]
 Identity=unix-user:*
@@ -20,17 +20,29 @@ Action=org.freedesktop.color-manager.create-device;org.freedesktop.color-manager
 ResultAny=no
 ResultInactive=no
 ResultActive=yes
-````
+```
 
 
 ### To kill xrdp after closing RDP (to allow local login for Ubuntu)
 
 - https://askubuntu.com/questions/1054063/local-ubuntu-desktop-cannot-login-after-opened-xrdp-session
 
-````bash
+```bash
 $ sudo vim /etc/xrdp/sesman.ini
-````
-````diff
+```
+```diff
 - KillDisconnected=false
 + KillDisconnected=1
-````
+```
+
+### To avoid blue solid wallpaper
+
+- https://taktak.jp/2025/02/22/4524/
+
+```bash
+$ sudo vim /etc/xrdp/startwm.sh
+```
+```diff
+export GNOME_SHELL_SESSION_MODE=ubuntu
+export XDG_CURRENT_DESKTOP=ubuntu:GNOME
+```
