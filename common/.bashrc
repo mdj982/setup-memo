@@ -127,8 +127,12 @@ if [ $# -eq 0 ]; then
     echo "Usage: open [file_name]"
 else
     for filename in "${@}"; do
-        abs_fname=$(wslpath -w $(readlink -f ${filename}))
-        cmd.exe /C start ${abs_fname}
+        if [ ! -e "${filename}" ]; then
+            echo "Error: Cannot open '${filename}': No such file or directory"
+            continue
+        fi
+        abs_fname="$(wslpath -w "$(readlink -f "${filename}")")"
+        explorer.exe "${abs_fname}"
     done
 fi
 }
