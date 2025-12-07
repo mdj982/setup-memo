@@ -154,22 +154,24 @@ fi
 
 # WSL
 function append_winpath_in_lowest_priority() {
-    local sbuf=$(cd /mnt/c && /mnt/c/Windows/system32/cmd.exe /c echo %path% | sed -e 's/\r//g' | awk 'BEGIN {FS=";"} { for (i = 1; i <= NF; i++) { printf("\"%s \" ", $i); } }')
-    local sresult=$(eval 'for word in '$sbuf'; do wslpath -u "$word" | xargs; done' | tr '\n' ':')
-    if [ ${sresult: -1} = ":" ]; then
-        sresult=${sresult/%?/}
+    if [ -e "/mnt/c/Windows/system32/cmd.exe" ]; then
+        local sbuf=$(cd /mnt/c && /mnt/c/Windows/system32/cmd.exe /c echo %path% | sed -e 's/\r//g' | awk 'BEGIN {FS=";"} { for (i = 1; i <= NF; i++) { printf("\"%s \" ", $i); } }')
+        local sresult=$(eval 'for word in '$sbuf'; do wslpath -u "$word" | xargs; done' | tr '\n' ':')
+        if [ ${sresult: -1} = ":" ]; then
+            sresult=${sresult/%?/}
+        fi
+        PATH="$PATH:$sresult"
     fi
-    PATH="$PATH:$sresult"
 }
-# run the following command in order to disable automatic include of WINPATH
-# ````
+
+# (Config) run the following command in order to disable automatic include of WINPATH
+# ```
 # sudo bash -c "echo -e '[interop]\nappendWindowsPath = false' >> /etc/wsl.conf"
-# ````
+# ```
+
 # run and unset the function by remove comment out of the following command
-# ````
-# append_winpath_in_lowest_priority
-# unset append_winpath_in_lowest_priority
-# ````
+append_winpath_in_lowest_priority
+unset append_winpath_in_lowest_priority
 
 # for dualboot
 # alias mnt="sudo bash ~/myshell/mnt.sh"
