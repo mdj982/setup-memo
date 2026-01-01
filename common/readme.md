@@ -214,13 +214,14 @@ $ echo $SHELL
   MY_NAME=mdj982
   useradd -m -s /bin/bash ${MY_NAME}
   echo "${MY_NAME}:tmppasswd" | chpasswd
-  gpasswd -a ${MY_NAME} sudo
   mkdir /home/${MY_NAME}/.ssh
   chmod 700 /home/${MY_NAME}/.ssh
   touch /home/${MY_NAME}/.ssh/authorized_keys
   chmod 600 /home/${MY_NAME}/.ssh/authorized_keys
   chown -R ${MY_NAME}:${MY_NAME} /home/${MY_NAME}/.ssh
-  echo "ssh-rsa ..." > /home/${MY_NAME}/.ssh/authorized_keys
+  gpasswd -a ${MY_NAME} docker
+  gpasswd -a ${MY_NAME} sudo
+  # echo "ssh-rsa ..." > /home/${MY_NAME}/.ssh/authorized_keys
   ```
 
 ## Fix IP address
