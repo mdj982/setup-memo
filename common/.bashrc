@@ -428,16 +428,14 @@ function dockertmprt() {
         "$@"
 }    
                     
-__docker_completions() {  
-    local cur="${COMP_WORDS[COMP_CWORD]}"
-    local prev_index=$((COMP_CWORD - 1))
-
-    if [[ $COMP_CWORD -eq 1 ]]; then
-        COMPREPLY=($(compgen -W "$(docker images --format '{{.Repository}}:{{.Tag}}')" -- "$cur"))
-    else
-        COMPREPLY=()
-        compopt -o default
-    fi
+__docker_completions() {
+    local cur
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    _init_completion -n : || return
+    local images=$(docker images --format '{{.Repository}}:{{.Tag}}')
+    COMPREPLY=($(compgen -W "$images" -- "$cur"))
+    COMPREPLY+=($(compgen -f -- "$cur"))
+    __ltrim_colon_completions "$cur"
 }
 
 complete -F __docker_completions dockertmp
