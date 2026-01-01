@@ -397,28 +397,36 @@ function extractcoltsvfmt() {
     fi
 }
 
-##              
+##
 function dockertmp() {
+    mkdir -p ${HOME}/.cache
+    [ -e ${HOME}/.bash_history ] || touch ${HOME}/.bash_history
+    [ -e ${HOME}/.bashrc ] || touch ${HOME}/.bashrc
+    [ -e ${HOME}/.inputrc ] || touch ${HOME}/.inputrc
     docker run \
         --gpus all \
+        --network host \
         -it --rm \
         -u $(id -u):$(id -g) \
+        --mount type=tmpfs,destination=${HOME},tmpfs-size=1g,tmpfs-mode=1777 \
+        -v ${HOME}/.cache:${HOME}/.cache \
         -v /etc/passwd:/etc/passwd:ro -v /etc/group:/etc/group:ro -v /etc/shadow:/etc/shadow:ro \
         -v ${HOME}/.bash_history:${HOME}/.bash_history -v ${HOME}/.bashrc:${HOME}/.bashrc \
         -v ${HOME}/.inputrc:${HOME}/.inputrc \
         -v "$(pwd)":"$(pwd)" \
         -w "$(pwd)" \
         "$@"
-}   
-        
-##      
+}
+
+##
 function dockertmprt() {
     docker run \
         --gpus all \
+        --network host \
         -it --rm \
         -v "$(pwd)":/work \
-        "$@"        
-}       
+        "$@"
+}    
                     
 __docker_completions() {  
     local cur="${COMP_WORDS[COMP_CWORD]}"
