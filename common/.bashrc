@@ -399,7 +399,6 @@ function extractcoltsvfmt() {
 
 ##
 function dockertmp() {
-    mkdir -p ${HOME}/.cache
     [ -e ${HOME}/.bash_history ] || touch ${HOME}/.bash_history
     [ -e ${HOME}/.bashrc ] || touch ${HOME}/.bashrc
     [ -e ${HOME}/.inputrc ] || touch ${HOME}/.inputrc
@@ -409,7 +408,6 @@ function dockertmp() {
         -it --rm \
         -u $(id -u):$(id -g) \
         --mount type=tmpfs,destination=${HOME},tmpfs-size=1g,tmpfs-mode=1777 \
-        -v ${HOME}/.cache:${HOME}/.cache \
         -v /etc/passwd:/etc/passwd:ro -v /etc/group:/etc/group:ro -v /etc/shadow:/etc/shadow:ro \
         -v ${HOME}/.bash_history:${HOME}/.bash_history -v ${HOME}/.bashrc:${HOME}/.bashrc \
         -v ${HOME}/.inputrc:${HOME}/.inputrc \
