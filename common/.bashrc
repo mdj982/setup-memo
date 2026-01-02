@@ -399,6 +399,82 @@ function extractcoltsvfmt() {
 
 ##
 function dockertmp() {
+    # Usage
+    if [ $# -lt 1 ]; then
+        echo "Usage: dockertmp [options...] <local-image> [args...]" >&2
+        return 1
+    fi
+
+    # Get image name
+    LOCAL_IMAGES=$(docker images --format "{{.Repository}}:{{.Tag}}")
+    IMAGE_NAME=""
+    local args=("$@")
+    for ((i=0; i<${#args[@]}; i++)); do
+        local candidate="${args[$i]}"
+        ## Arguments beginning with hyphen must be options
+        if [[ "${candidate}" == -* ]]; then
+            continue
+        fi
+        ## Exact match
+        if echo "$LOCAL_IMAGES" | grep -Fqx "${candidate}"; then
+            IMAGE_NAME="${candidate}"
+            break
+        fi
+        ## Omit :latest
+        if [[ "${candidate}" != *:* ]]; then
+            if echo "$LOCAL_IMAGES" | grep -Fqx "${candidate}:latest"; then
+                IMAGE_NAME="${candidate}"
+                break
+            fi
+        fi
+    done
+
+    # Image not found
+    if [ -z "${IMAGE_NAME}" ]; then
+        echo "Error: Image not found in local registry." >&2
+        echo "Note: This function requires the image to be 'docker pull'-ed beforehand." >&2
+        echo "Usage: dockertmp [options...] <local-image> [args...]" >&2
+        return 1
+    fi
+
+    # Copy /root in container to ${HOME} without side effects
+    (
+        VOL_NAME="vol-tmp-home-$(date +%s)-${RANDOM}"
+        trap "docker volume rm ${VOL_NAME} >/dev/null 2>&1" EXIT
+        ## Create temporal volume
+        docker volume create "${VOL_NAME}" >/dev/null
+        ## Mount and copy
+        docker run --rm \
+            --entrypoint /bin/sh \
+            -v ${VOL_NAME}:/${VOL_NAME} \
+            "${IMAGE_NAME}" \
+            -c "cp -aT \${HOME} /${VOL_NAME} && chown -R $(id -u):$(id -g) /${VOL_NAME}" \
+            > /dev/null 2>&1
+        if [ $? -ne 0 ]; then
+            echo "Error: Failed to prepare temporal home directory" >&2
+            exit 1
+        fi
+        ## Run with mounting the temporal volume
+        [ -e ${HOME}/.bash_history ] || touch ${HOME}/.bash_history
+        [ -e ${HOME}/.bashrc ] || touch ${HOME}/.bashrc
+        [ -e ${HOME}/.inputrc ] || touch ${HOME}/.inputrc
+        docker run \
+            --gpus all \
+            --network host \
+            -it --rm \
+            -u $(id -u):$(id -g) \
+            -v /etc/passwd:/etc/passwd:ro -v /etc/group:/etc/group:ro -v /etc/shadow:/etc/shadow:ro \
+            -v ${VOL_NAME}:${HOME} \
+            -v ${HOME}/.bash_history:${HOME}/.bash_history -v ${HOME}/.bashrc:${HOME}/.bashrc \
+            -v ${HOME}/.inputrc:${HOME}/.inputrc \
+            -v "$(pwd)":"$(pwd)" \
+            -w "$(pwd)" \
+            "$@"
+    )
+}
+
+##
+function dockertmprt() {
     [ -e ${HOME}/.bash_history ] || touch ${HOME}/.bash_history
     [ -e ${HOME}/.bashrc ] || touch ${HOME}/.bashrc
     [ -e ${HOME}/.inputrc ] || touch ${HOME}/.inputrc
@@ -406,26 +482,13 @@ function dockertmp() {
         --gpus all \
         --network host \
         -it --rm \
-        -u $(id -u):$(id -g) \
-        --mount type=tmpfs,destination=${HOME},tmpfs-size=1g,tmpfs-mode=1777 \
-        -v /etc/passwd:/etc/passwd:ro -v /etc/group:/etc/group:ro -v /etc/shadow:/etc/shadow:ro \
-        -v ${HOME}/.bash_history:${HOME}/.bash_history -v ${HOME}/.bashrc:${HOME}/.bashrc \
-        -v ${HOME}/.inputrc:${HOME}/.inputrc \
+        -v ${HOME}/.bash_history:/root/.bash_history -v ${HOME}/.bashrc:/root/.bashrc \
+        -v ${HOME}/.inputrc:/root/.inputrc \
         -v "$(pwd)":"$(pwd)" \
         -w "$(pwd)" \
         "$@"
 }
-
-##
-function dockertmprt() {
-    docker run \
-        --gpus all \
-        --network host \
-        -it --rm \
-        -v "$(pwd)":/work \
-        "$@"
-}    
-                    
+                   
 __docker_completions() {
     local cur
     cur="${COMP_WORDS[COMP_CWORD]}"
