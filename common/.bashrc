@@ -404,7 +404,11 @@ function dockertmp() {
         echo "Usage: dockertmp [options...] <local-image> [args...]" >&2
         return 1
     fi
-
+    # Error condition
+    if [[ "$(pwd)" == "$HOME" ]]; then
+        echo "Error: 'dockertmp' should not be executed in home directory" >&2
+        return 1
+    fi
     # Get image name
     LOCAL_IMAGES=$(docker images --format "{{.Repository}}:{{.Tag}}")
     IMAGE_NAME=""
