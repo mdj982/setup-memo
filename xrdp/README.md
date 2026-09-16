@@ -35,7 +35,7 @@ $ sudo vim /etc/xrdp/sesman.ini
 + KillDisconnected=1
 ```
 
-### To avoid blue solid wallpaper
+### To avoid blue solid wallpaper (Since Ubuntu 24.04 ?)
 
 - https://taktak.jp/2025/02/22/4524/
 
