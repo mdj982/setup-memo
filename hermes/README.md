@@ -11,7 +11,7 @@ curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 Install specific version:
 
 ```sh
-curl -fsSL https://hermes-agent.nousresearch.com/install.sh | VERSION=v0.21.4 bash
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash -s -- --version v0.21.4
 ```
 
 Wait for 5 minutes ...
