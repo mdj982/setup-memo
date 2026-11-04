@@ -2,8 +2,16 @@
 
 ## 1. Installation
 
+Install latest version:
+
 ```sh
 curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+```
+
+Install specific version:
+
+```ah
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash -s -- --commit v0.21.4
 ```
 
 Wait for 5 minutes ...
