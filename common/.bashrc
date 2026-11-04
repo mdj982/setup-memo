@@ -187,7 +187,7 @@ function myshell() {
     sshgen\tnautback\ttopps\tsubstall\n\
     whitefmt\textractline\textractcol[csvfmt/tsvfmt]\tconvertpdf2png[trim]\n\
     dockertmp\tdockertmprt\tshowlargefile\tgitdate\tpsall\n\
-    setunion\tsetdifference\tsetintersection\tcalcstat\n\
+    setunion\tsetdifference\tsetintersection\tcalcstat\tchmodrec\n\
     " | column -t
 }
 
@@ -609,4 +609,42 @@ function calcstat() {
         echo "median = $median"
         echo "stddev = $stddev"
     fi
+}
+
+##
+function chmodrec() {
+    if [ -z "$1" ]; then
+        echo "Usage: $0 <target_directory>"
+        exit 1
+    fi
+    TARGET_DIR="$1"
+    if [ ! -d "$TARGET_DIR" ]; then
+        echo "Error: Directory '$TARGET_DIR' does not exist."
+        exit 1
+    fi
+    CURRENT_UMASK=$(umask)
+    DIR_PERM=$(printf '%03o' $(( 0777 & ~0$CURRENT_UMASK )))
+    FILE_PERM=$(printf '%03o' $(( 0666 & ~0$CURRENT_UMASK )))
+    echo "Current umask : $CURRENT_UMASK"
+    echo "Applying dir  : $DIR_PERM"
+    echo "Applying file : $FILE_PERM"
+    echo "Target dir    : $TARGET_DIR"
+    echo "----------------------------------------"
+
+    find "$TARGET_DIR" -type d -exec chmod "$DIR_PERM" {} +
+    echo "Directory permissions updated."
+
+    find "$TARGET_DIR" -type f -exec chmod "$FILE_PERM" {} +
+    echo "File permissions updated."
+
+    echo "Scanning for x86 ELF files to add execute permission..."
+    find "$TARGET_DIR" -type f -print0 | while IFS= read -r -d '' file; do
+        file_info=$(file -b "$file")
+        if echo "$file_info" | grep -Eq 'ELF.*(shared object|executable).*x86.*|ASCII text executable'; then
+            chmod +x "$file"
+            echo "  Added +x : $file"
+        fi
+    done
+
+    echo "Done."
 }
