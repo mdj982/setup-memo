@@ -66,7 +66,7 @@ Go to "https://api.slack.com/apps"
 * Click "Create New App"
 * Click "From a manifest"
 * Input contents of $HOME/.hermes/slack-manifest.json
-    * However, remove "assistant_view", "oauth_config>scopes>bot>assistant:write", "slash_commands"
+    * [Important] However, remove "assistant_view", "oauth_config>scopes>bot>assistant:write", "slash_commands"
 * Scroll down and select a workspace
 * Click "Next" -> "Create"
 
@@ -102,6 +102,7 @@ Choose "Settings > Basic Information" in the left pain
   * Set icon
   * Set background color
   * Click Save Changes (Don't forget!)
+
 Choose "Features > App Home" in the left pain
 * Your App’s Presence in Slack > App Display Name > Edit
   * Set Display name (which is the name displayed in chat window)
