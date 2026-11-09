@@ -111,7 +111,7 @@ Choose "Features > App Home" in the left pain
 
 ### 3.4. Input IDs in Slack App
 
-In the terminal
+Copy the following IDs from Slack to the terminal
 * Allowed user IDs
     * Show profile by clicking icon
     * Click ︙
